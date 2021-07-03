@@ -14,6 +14,7 @@ struct Globals {
 	static bool AimbotEnabled;
 	static bool TeamCheck;
 	static bool Crosshair;
+	static bool ViewFOVCircle;
 	static int Target;
 	static int AimbotBind;
 	static float CrosshairScale;
@@ -21,6 +22,7 @@ struct Globals {
 	static float FOVSize;
 	static float AimbotSmoothness;
 	static Color3 CrosshairColor;
+	static Color3 FOVCircleColor;
 	static Color3 ESPBoxColor;
 	static Color3 NameColor;
 	static Color3 DistanceColor;

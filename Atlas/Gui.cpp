@@ -43,7 +43,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 500,
+        500, 530,
         NULL,
         NULL,
         wc.hInstance,
@@ -71,6 +71,7 @@ void Gui::Setup() {
     ImGui_ImplDX9_Init(g_pd3dDevice);
 
     ImVec4 crosshairColor = ImVec4(Globals::CrosshairColor.R, Globals::CrosshairColor.G, Globals::CrosshairColor.B, 1);
+    ImVec4 fovCircleColor = ImVec4(Globals::FOVCircleColor.R, Globals::FOVCircleColor.G, Globals::FOVCircleColor.B, 1);
     ImVec4 espBoxColor = ImVec4(Globals::ESPBoxColor.R, Globals::ESPBoxColor.G, Globals::ESPBoxColor.B, 1);
     ImVec4 nameColor = ImVec4(Globals::NameColor.R, Globals::NameColor.G, Globals::NameColor.B, 1);
     ImVec4 distanceColor = ImVec4(Globals::DistanceColor.R, Globals::DistanceColor.G, Globals::DistanceColor.B, 1);
@@ -125,15 +126,19 @@ void Gui::Setup() {
             ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
             ImGui::Checkbox("Team check", &Globals::TeamCheck);
             ImGui::Checkbox("Crosshair", &Globals::Crosshair);
+            ImGui::Checkbox("View FOV circle", &Globals::ViewFOVCircle);
             ImGui::ListBox("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
             ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
             ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
             ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
             ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
-            ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 4, 15);
+            ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
 
             ImGui::ColorEdit3("Crosshair color", (float*)&crosshairColor);
             Globals::CrosshairColor = { crosshairColor.x, crosshairColor.y, crosshairColor.z };
+
+            ImGui::ColorEdit3("FOV circle color", (float*)&fovCircleColor);
+            Globals::FOVCircleColor = { fovCircleColor.x, fovCircleColor.y, fovCircleColor.z };
 
             ImGui::ColorEdit3("ESP box color", (float*)&espBoxColor);
             Globals::ESPBoxColor = { espBoxColor.x, espBoxColor.y, espBoxColor.z };

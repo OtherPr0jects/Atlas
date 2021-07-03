@@ -31,13 +31,17 @@ void drawLoop(int width, int height) {
 	GetCursorPos(&cursorPosition);
 	ScreenToClient(Globals::RobloxHWND, &cursorPosition);
 
-	DrawCircle(
-		cursorPosition.x, cursorPosition.y,
-		Globals::FOVSize - 10,
-		3,
-		1, 0, 0, 1,
-		false
-	);
+	if (Globals::ViewFOVCircle) {
+		Color3 fovCircleColor = Globals::FOVCircleColor;
+
+		DrawCircle(
+			cursorPosition.x, cursorPosition.y,
+			Globals::FOVSize - 10,
+			3,
+			fovCircleColor.R, fovCircleColor.G, fovCircleColor.B, 1,
+			false
+		);
+	}
 
 	if (Globals::Crosshair) {
 		Vector2 windowDimensions = Render::GetWindowDimensions();
