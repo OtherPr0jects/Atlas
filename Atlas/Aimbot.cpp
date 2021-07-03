@@ -29,38 +29,37 @@ Vector2 getClosestCharacterScreenPosToCursor() {
     Vector2 screenPos = { -1, -1 };
     int shortestDistance = 9e9;
 
-    DWORD localTeam = 0;
+    Instance localTeam = 0;
     if (Globals::TeamCheck) {
-        localTeam = Memory::GetTeam(Globals::LocalPlayer);
+        localTeam = Globals::LocalPlayer.GetTeam();
     }
 
-	std::vector<DWORD> players = Memory::GetPlayers(Globals::PlayersService);
-	for (DWORD player : players) {
-        if (player == Globals::LocalPlayer) continue;
+	std::vector<Player> players = Globals::PlayersService.GetPlayers();
+	for (Player player : players) {
+        if (player.Address == Globals::LocalPlayer.Address) continue;
 
-        DWORD team = Memory::GetTeam(player);
-        if (Globals::TeamCheck && (team == localTeam)) continue;
+        Instance team = player.GetTeam();
+        if (Globals::TeamCheck && (team.Address == localTeam.Address)) continue;
 
-		DWORD character = Memory::GetCharacter(player);
-		if (!character) continue;
+        Instance character = player.GetCharacter();
+		if (!character.Address) continue;
 
         //DWORD humanoid = Memory::FindFirstChild(handle, character, "Humanoid");
         //if (!humanoid || Memory::GetHealth(handle, humanoid) == 0) continue;
 
-        DWORD targetInstance;
+        BasePart targetInstance(0);
         
         if (Globals::Target == 0) {
-            targetInstance = Memory::FindFirstChild(character, "Head");
-            if (!targetInstance) continue;
+            targetInstance = BasePart(character.FindFirstChild("Head").Address);
         } else if (Globals::Target == 1) {
-            targetInstance = Memory::FindFirstChild(character, "HumanoidRootPart");
+            targetInstance = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
         } else {
-            targetInstance = ((rand() % 100 + 1) < 50) ? Memory::FindFirstChild(character, "HumanoidRootPart") :
-                Memory::FindFirstChild(character, "Head");
+            targetInstance = ((rand() % 100 + 1) < 50) ? BasePart(character.FindFirstChild("HumanoidRootPart").Address) :
+                BasePart(character.FindFirstChild("Head").Address);
         }
-        if (!targetInstance) continue;
+        if (!targetInstance.Address) continue;
         
-        Vector2 targetScreenPos = Render::WorldToScreenPoint(Memory::GetPosition(targetInstance));
+        Vector2 targetScreenPos = Render::WorldToScreenPoint(targetInstance.GetPosition());
         if (targetScreenPos.X == -1) continue;
 
         Vector2 cursorPos;

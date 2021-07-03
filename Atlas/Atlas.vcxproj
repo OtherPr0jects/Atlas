@@ -143,10 +143,15 @@
   <ItemGroup>
     <ClCompile Include="Atlas.cpp" />
     <ClCompile Include="Aimbot.cpp" />
+    <ClCompile Include="BasePart.cpp" />
+    <ClCompile Include="DataModel.cpp" />
     <ClCompile Include="DirectOverlay.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Gui.cpp" />
+    <ClCompile Include="Instance.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Players.cpp" />
     <ClCompile Include="StringUtility.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -157,6 +162,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="VisualEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aimbot.h" />
@@ -165,6 +171,7 @@
     <ClInclude Include="Gui.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Addresses.h" />
+    <ClInclude Include="RBXClasses.h" />
     <ClInclude Include="RBXStructs.h" />
     <ClInclude Include="StringUtility.h" />
     <ClInclude Include="Render.h" />

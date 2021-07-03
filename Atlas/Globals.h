@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include "RBXClasses.h"
 #include "RBXStructs.h"
 
 struct Globals {
@@ -7,9 +8,9 @@ struct Globals {
 	static HWND RobloxHWND;
 	static HWND OverlayHWND;
 	static HWND GuiHWND;
-	static DWORD PlayersService;
-	static DWORD LocalPlayer;
-	static DWORD VisualEngine;
+	static Players PlayersService;
+	static Player LocalPlayer;
+	static VisualEngine VisualEngine;
 	static bool ESPEnabled;
 	static bool AimbotEnabled;
 	static bool TeamCheck;

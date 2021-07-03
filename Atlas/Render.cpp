@@ -70,9 +70,9 @@ void drawLoop(int width, int height) {
 	Color3 nameColor = Globals::NameColor;
 	Color3 distanceColor = Globals::DistanceColor;
 
-	DWORD localTeam = 0;
+	Instance localTeam = 0;
 	if (Globals::TeamCheck) {
-		localTeam = Memory::GetTeam(Globals::LocalPlayer);
+		localTeam = Globals::LocalPlayer.GetTeam();
 	}
 
 	/*DWORD localCharacter = Memory::GetCharacter(localPlayerR);
@@ -84,25 +84,25 @@ void drawLoop(int width, int height) {
 	Vector3 localHumanoidRootPartPosition = Memory::GetPosition(localHumanoidRootPart);
 	if (localHumanoidRootPartPosition.X == -1) return;*/
 
-	Vector3 cameraPosition = Memory::GetCameraPosition(Globals::VisualEngine);
+	Vector3 cameraPosition = Globals::VisualEngine.GetCameraPosition();
 
-	std::vector<DWORD> players = Memory::GetPlayers(Globals::PlayersService);
-	for (DWORD player : players) {
-		if (player == Globals::LocalPlayer) continue;
+	std::vector<Player> players = Globals::PlayersService.GetPlayers();
+	for (Player player : players) {
+		if (player.Address == Globals::LocalPlayer.Address) continue;
 
-		DWORD team = Memory::GetTeam(player);
-		if (Globals::TeamCheck && (team == localTeam)) continue;
+		Instance team = player.GetTeam();
+		if (Globals::TeamCheck && (team.Address == localTeam.Address)) continue;
 
-		DWORD character = Memory::GetCharacter(player);
-		if (!character) continue;
+		Instance character = player.GetCharacter();
+		if (!character.Address) continue;
 
-		DWORD humanoidRootPart = Memory::FindFirstChild(character, "HumanoidRootPart");
+		BasePart humanoidRootPart = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
 		//DWORD humanoid = Memory::FindFirstChild(handle, character, "Humanoid");
 
-		if (!humanoidRootPart/* || !humanoid*/) continue;
+		if (!humanoidRootPart.Address/* || !humanoid*/) continue;
 		//if (Memory::GetHealth(handle, humanoid) == 0) continue;
 
-		Vector3 humanoidRootPartPosition = Memory::GetPosition(humanoidRootPart);
+		Vector3 humanoidRootPartPosition = humanoidRootPart.GetPosition();
 
 		//Vector2 humanoidRootPartScreenPos = Render::WorldToScreenPoint(humanoidRootPartPosition);
 		//if (humanoidRootPartScreenPos.X == -1) continue;
@@ -130,7 +130,7 @@ void drawLoop(int width, int height) {
 		);
 		
 		DrawString(
-			Memory::GetName(player),
+			player.GetName(),
 			fontSize,
 			headScreenPos.X, headScreenPos.Y - 25,
 			nameColor.R, nameColor.G, nameColor.B, 1
@@ -148,9 +148,9 @@ void drawLoop(int width, int height) {
 Vector2 Render::GetWindowDimensions() {
 	Vector2 dimensions = { 0, 0 };
 	
-	DWORD offset = 0x4D8;
-	int width = Memory::Read<int>((LPCVOID)(Globals::VisualEngine + offset));
-	int height = Memory::Read<int>((LPCVOID)(Globals::VisualEngine + offset + sizeof(width)));
+	Vector2 clientDimensions = Globals::VisualEngine.GetClientDimensions();
+	int width = clientDimensions.X;
+	int height = clientDimensions.Y;
 
 	dimensions.X = width;
 	dimensions.Y = height;
@@ -161,8 +161,8 @@ Vector2 Render::GetWindowDimensions() {
 Vector2 Render::WorldToScreenPoint(Vector3 position) {
 	Vector2 windowDimensions = Render::GetWindowDimensions();
 
-	float viewMatrix[16];
-	ReadProcessMemory(Globals::Handle, (LPCVOID)(Globals::VisualEngine + 0x120), &viewMatrix, sizeof(viewMatrix), 0);
+	float* viewMatrix;
+	viewMatrix = Globals::VisualEngine.GetViewMatrix();
 	
 	Vector4 clipCoords;
 	clipCoords.X = (position.X * viewMatrix[0]) + (position.Y * viewMatrix[1]) + (position.Z * viewMatrix[2]) + viewMatrix[3];
@@ -187,5 +187,5 @@ Vector2 Render::WorldToScreenPoint(Vector3 position) {
 
 void Render::Setup() {
 	DirectOverlaySetOption(D2DOV_FONT_COURIER | D2DOV_REQUIRE_FOREGROUND);
-	DirectOverlaySetup(drawLoop, FindWindowA(NULL, "Roblox"));
+	DirectOverlaySetup(drawLoop, Globals::RobloxHWND);
 }

@@ -21,13 +21,12 @@ int main() {
         std::cout << "Couldn't get Roblox handle." << std::endl;
         return 0;
     }
-    Memory::SetHandle(handle);
+    Globals::Handle = handle;
 
     HWND hwnd = FindWindowA(0, "Roblox");
     Globals::RobloxHWND = hwnd;
 
-    long long userID = 0;
-    char username[21];
+    __int64 userID = 0;
     std::string characterAppearanceID;
     std::string connectionLocation;
     std::string teamName;
@@ -36,39 +35,37 @@ int main() {
 
     std::cout << "Welcome to Atlas. Scanning..." << std::endl;
 
-    DWORD game = Memory::Scan(baseAddress, baseAddress + Addresses::DataModel);
-    DWORD players = Memory::GetService(game, "Players");
-    DWORD localPlayer = Memory::GetPointerAddress(players + 0x110);
-    DWORD character = Memory::GetCharacter(localPlayer);
-    DWORD team = Memory::GetTeam(localPlayer);
+    DataModel game = Memory::Scan(baseAddress, baseAddress + Addresses::DataModel);
+    Players players = Players(game.GetService("Players").Address);
+    Player localPlayer = players.GetLocalPlayer();
+    Instance character = localPlayer.GetCharacter();
+    Instance team = localPlayer.GetTeam();
 
-    DWORD visualEngine = Memory::Scan(baseAddress, baseAddress + Addresses::VisualEngine);
+    VisualEngine visualEngine = Memory::Scan(baseAddress, baseAddress + Addresses::VisualEngine);
 
     Globals::PlayersService = players;
     Globals::LocalPlayer = localPlayer;
     Globals::VisualEngine = visualEngine;
 
-    ReadProcessMemory(handle, (LPCVOID)(localPlayer + 0xF8), &userID, sizeof(userID), 0);
+    userID = localPlayer.GetUserID();
 
-    ReadProcessMemory(handle, (LPCVOID)Memory::GetPointerAddress(localPlayer + 0x28), &username, sizeof(username), 0);
-
-    if (team) {
-        teamName = Memory::GetName(team);
+    if (team.Address) {
+        teamName = team.GetName();
     } else {
         teamName = "None";
     }
 
     std::cout << "--------------------------------------" << std::endl;
     std::cout << "Base address: " << std::hex << baseAddress << std::dec << std::endl;
-    std::cout << "DataModel address: " << std::hex << game << std::dec << std::endl;
-    std::cout << "Players address: " << std::hex << players << std::dec << std::endl;
-    std::cout << "LocalPlayer address: " << std::hex << localPlayer << std::dec << std::endl;
-    std::cout << "Character address: " << std::hex << character << std::dec << std::endl;
-    std::cout << "VisualEngine address: " << std::hex << visualEngine << std::dec << std::endl;
+    std::cout << "DataModel address: " << std::hex << game.Address << std::dec << std::endl;
+    std::cout << "Players address: " << std::hex << players.Address << std::dec << std::endl;
+    std::cout << "LocalPlayer address: " << std::hex << localPlayer.Address << std::dec << std::endl;
+    std::cout << "Character address: " << std::hex << character.Address << std::dec << std::endl;
+    std::cout << "VisualEngine address: " << std::hex << visualEngine.Address << std::dec << std::endl;
     std::cout << "--------------------------------------" << std::endl;
 
     std::cout << "User ID: " << userID << std::endl;
-    std::cout << "Username: " << username << std::endl;
+    std::cout << "Username: " << localPlayer.GetName() << std::endl;
     std::cout << "Team: " << teamName << std::endl;
 
     Gui gui;
