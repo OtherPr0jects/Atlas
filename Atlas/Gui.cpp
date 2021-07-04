@@ -10,7 +10,6 @@
 #include "Globals.h"
 #include "Render.h"
 #include "Aimbot.h"
-#include "RBXStructs.h"
 #include "Config.h"
 #pragma comment(lib, "d3d9.lib")
 
@@ -44,7 +43,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 650,
+        500, 350,
         NULL,
         NULL,
         wc.hInstance,
@@ -118,49 +117,68 @@ void Gui::Setup() {
 
         {
             ImGui::Begin("Atlas", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+            ImGui::BeginTabBar("Tabs");
 
-            ImGui::Checkbox("ESP boxes", &Globals::ESPBoxEnabled);
-            ImGui::SameLine();
-            ImGui::Checkbox("ESP names", &Globals::ESPNameEnabled);
-            ImGui::SameLine();
-            ImGui::Checkbox("ESP distances", &Globals::ESPDistanceEnabled);
-            ImGui::SameLine();
-            ImGui::Checkbox("ESP head dots", &Globals::ESPHeadDotEnabled);
+            if (ImGui::BeginTabItem("ESP")) {
+                ImGui::Checkbox("ESP boxes", &Globals::ESPBoxEnabled);
+                ImGui::SameLine();
+                ImGui::Checkbox("ESP names", &Globals::ESPNameEnabled);
+                ImGui::SameLine();
+                ImGui::Checkbox("ESP distances", &Globals::ESPDistanceEnabled);
+                ImGui::SameLine();
+                ImGui::Checkbox("ESP head dots", &Globals::ESPHeadDotEnabled);
 
-            ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
-            ImGui::Checkbox("Team check", &Globals::TeamCheck);
-            ImGui::Checkbox("Crosshair", &Globals::Crosshair);
-            ImGui::Checkbox("View FOV circle", &Globals::ViewFOVCircle);
+                ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
 
-            ImGui::ListBox("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
-            ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
+                ImGui::ColorEdit3("ESP box color", (float*)&Globals::ESPBoxColor);
+                ImGui::ColorEdit3("Name color", (float*)&Globals::NameColor);
+                ImGui::ColorEdit3("Distance color", (float*)&Globals::DistanceColor);
+                ImGui::ColorEdit3("Head dot color", (float*)&Globals::HeadDotColor);
 
-            ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
-            ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
-            ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
-            ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
-            ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
-
-            ImGui::ColorEdit3("Crosshair color", (float*)&Globals::CrosshairColor);
-
-            ImGui::ColorEdit3("FOV circle color", (float*)&Globals::FOVCircleColor);
-
-            ImGui::ColorEdit3("ESP box color", (float*)&Globals::ESPBoxColor);
-
-            ImGui::ColorEdit3("Name color", (float*)&Globals::NameColor);
-
-            ImGui::ColorEdit3("Distance color", (float*)&Globals::DistanceColor);
-
-            ImGui::ColorEdit3("Head dot color", (float*)&Globals::HeadDotColor);
-
-            ImGui::InputText("Config name", configName, IM_ARRAYSIZE(configName));
-            if (ImGui::Button("Save config")) {
-                Config::Save(configName);
-            }
-            if (ImGui::Button("Load config")) {
-                Config::Load(configName);
+                ImGui::EndTabItem();
             }
 
+            if (ImGui::BeginTabItem("Aimbot")) {
+                ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
+                ImGui::Checkbox("View FOV circle", &Globals::ViewFOVCircle);
+
+                ImGui::ListBox("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
+                ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
+
+                ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
+                ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
+
+                ImGui::ColorEdit3("FOV circle color", (float*)&Globals::FOVCircleColor);
+
+                ImGui::EndTabItem();
+            }
+
+            if (ImGui::BeginTabItem("Misc")) {
+                ImGui::Checkbox("Team check", &Globals::TeamCheck);
+                ImGui::Checkbox("Crosshair", &Globals::Crosshair);
+
+                ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
+                ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
+
+                ImGui::ColorEdit3("Crosshair color", (float*)&Globals::CrosshairColor);
+
+                ImGui::EndTabItem();
+            }
+
+            if (ImGui::BeginTabItem("Config")) {
+                ImGui::InputText("Config name", configName, IM_ARRAYSIZE(configName));
+
+                if (ImGui::Button("Save config")) {
+                    Config::Save(configName);
+                }
+                if (ImGui::Button("Load config")) {
+                    Config::Load(configName);
+                }
+
+                ImGui::EndTabItem();
+            }
+
+            ImGui::EndTabBar();
             ImGui::End();
         }
 
