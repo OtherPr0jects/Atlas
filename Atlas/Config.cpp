@@ -6,23 +6,23 @@
 
 using json = nlohmann::json;
 
-static json config;
-
 void saveFile(const std::string& filePath, const std::string& data) {
-    std::ofstream outfile;
-    outfile.open(filePath);
-    outfile << data;
-    outfile.close();
+    std::ofstream outFile;
+    outFile.open(filePath);
+    outFile << data;
+    outFile.close();
 }
 
 void loadFile(const std::string& filePath, std::string& data) {
-    std::ifstream infile;
-    infile.open(filePath);
-    infile >> data;
-    infile.close();
+    std::ifstream inFile;
+    inFile.open(filePath);
+    inFile >> data;
+    inFile.close();
 }
 
 void Config::Save(char* configName, float& crosshairColor, float& fovCircleColor, float& espBoxColor, float& nameColor, float& distanceColor, float& headDotColor) {
+    json config;
+
     config["ESPBoxes"] = Globals::ESPBoxEnabled;
     config["ESPNames"] = Globals::ESPNameEnabled;
     config["ESPDistances"] = Globals::ESPDistanceEnabled;
@@ -60,7 +60,7 @@ void Config::Load(char* configName, float& crosshairColor, float& fovCircleColor
         return;
     }
     
-    config = json::parse(configJson);
+    json config = json::parse(configJson);
 
     Globals::ESPBoxEnabled = config["ESPBoxes"];
     Globals::ESPNameEnabled = config["ESPNames"];
