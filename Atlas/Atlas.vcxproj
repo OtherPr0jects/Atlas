@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>imgui;imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>imgui;imgui\backends;json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +144,7 @@
     <ClCompile Include="Atlas.cpp" />
     <ClCompile Include="Aimbot.cpp" />
     <ClCompile Include="BasePart.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="DataModel.cpp" />
     <ClCompile Include="DirectOverlay.cpp" />
     <ClCompile Include="Globals.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aimbot.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="DirectOverlay.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Gui.h" />

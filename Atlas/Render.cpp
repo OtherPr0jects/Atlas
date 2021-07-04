@@ -64,7 +64,7 @@ void drawLoop(int width, int height) {
 		);
 	}
 
-	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled) return;
+	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled && !Globals::ESPHeadDotEnabled) return;
 
 	Color3 espBoxColor = Globals::ESPBoxColor;
 	Color3 nameColor = Globals::NameColor;
@@ -97,10 +97,10 @@ void drawLoop(int width, int height) {
 		if (!character.Address) continue;
 
 		BasePart humanoidRootPart = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
-		//DWORD humanoid = Memory::FindFirstChild(handle, character, "Humanoid");
+		if (!humanoidRootPart.Address) continue;
 
-		if (!humanoidRootPart.Address/* || !humanoid*/) continue;
-		//if (Memory::GetHealth(handle, humanoid) == 0) continue;
+		//DWORD humanoid = Memory::FindFirstChild(handle, character, "Humanoid");
+		//if (!humanoid || Memory::GetHealth(handle, humanoid) == 0) continue;
 
 		Vector3 humanoidRootPartPosition = humanoidRootPart.GetPosition();
 
@@ -154,6 +154,25 @@ void drawLoop(int width, int height) {
 				fontSize,
 				headScreenPos.X, legScreenPos.Y + 5,
 				distanceColor.R, distanceColor.G, distanceColor.B, 1
+			);
+		}
+		if (Globals::ESPHeadDotEnabled) {
+			BasePart head = BasePart(character.FindFirstChild("Head").Address);
+			if (!head.Address) continue;
+
+			Vector3 headPosition = head.GetPosition();
+
+			Vector2 realHeadScreenPos = Render::WorldToScreenPoint(headPosition);
+			if (realHeadScreenPos.X == -1) continue;
+
+			Color3 headDotColor = Globals::HeadDotColor;
+
+			DrawCircle(
+				realHeadScreenPos.X, realHeadScreenPos.Y,
+				500 / distanceFromCamera,
+				3,
+				headDotColor.R, headDotColor.G, headDotColor.B, 0.4,
+				true
 			);
 		}
 	}

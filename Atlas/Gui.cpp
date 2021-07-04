@@ -11,6 +11,7 @@
 #include "Render.h"
 #include "Aimbot.h"
 #include "RBXStructs.h"
+#include "Config.h"
 #pragma comment(lib, "d3d9.lib")
 
 static LPDIRECT3D9 g_pD3D;
@@ -43,7 +44,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 590,
+        500, 650,
         NULL,
         NULL,
         wc.hInstance,
@@ -70,11 +71,12 @@ void Gui::Setup() {
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX9_Init(g_pd3dDevice);
 
-    ImVec4 crosshairColor = ImVec4(Globals::CrosshairColor.R, Globals::CrosshairColor.G, Globals::CrosshairColor.B, 1);
-    ImVec4 fovCircleColor = ImVec4(Globals::FOVCircleColor.R, Globals::FOVCircleColor.G, Globals::FOVCircleColor.B, 1);
-    ImVec4 espBoxColor = ImVec4(Globals::ESPBoxColor.R, Globals::ESPBoxColor.G, Globals::ESPBoxColor.B, 1);
-    ImVec4 nameColor = ImVec4(Globals::NameColor.R, Globals::NameColor.G, Globals::NameColor.B, 1);
-    ImVec4 distanceColor = ImVec4(Globals::DistanceColor.R, Globals::DistanceColor.G, Globals::DistanceColor.B, 1);
+    float crosshairColor[3] = { Globals::CrosshairColor.R, Globals::CrosshairColor.G, Globals::CrosshairColor.B };
+    float fovCircleColor[3] = { Globals::FOVCircleColor.R, Globals::FOVCircleColor.G, Globals::FOVCircleColor.B };
+    float espBoxColor[3] = { Globals::ESPBoxColor.R, Globals::ESPBoxColor.G, Globals::ESPBoxColor.B };
+    float nameColor[3] = { Globals::NameColor.R, Globals::NameColor.G, Globals::NameColor.B };
+    float distanceColor[3] = { Globals::DistanceColor.R, Globals::DistanceColor.G, Globals::DistanceColor.B };
+    float headDotColor[3] = { Globals::HeadDotColor.R, Globals::HeadDotColor.G, Globals::HeadDotColor.B };
 
     const char* targetOptions[] = {
         "Head",
@@ -87,6 +89,8 @@ void Gui::Setup() {
         "Left Mouse Button",
         "Left Shift"
     };
+
+    char configName[25] = {};
 
     bool done = false;
     while (!done) {
@@ -122,9 +126,13 @@ void Gui::Setup() {
         {
             ImGui::Begin("Atlas", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-            ImGui::Checkbox("ESP Boxes", &Globals::ESPBoxEnabled);
-            ImGui::Checkbox("ESP Names", &Globals::ESPNameEnabled);
-            ImGui::Checkbox("ESP Distances", &Globals::ESPDistanceEnabled);
+            ImGui::Checkbox("ESP boxes", &Globals::ESPBoxEnabled);
+            ImGui::SameLine();
+            ImGui::Checkbox("ESP names", &Globals::ESPNameEnabled);
+            ImGui::SameLine();
+            ImGui::Checkbox("ESP distances", &Globals::ESPDistanceEnabled);
+            ImGui::SameLine();
+            ImGui::Checkbox("ESP head dots", &Globals::ESPHeadDotEnabled);
 
             ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
             ImGui::Checkbox("Team check", &Globals::TeamCheck);
@@ -141,19 +149,30 @@ void Gui::Setup() {
             ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
 
             ImGui::ColorEdit3("Crosshair color", (float*)&crosshairColor);
-            Globals::CrosshairColor = { crosshairColor.x, crosshairColor.y, crosshairColor.z };
+            Globals::CrosshairColor = { crosshairColor[0], crosshairColor[1], crosshairColor[2] };
 
             ImGui::ColorEdit3("FOV circle color", (float*)&fovCircleColor);
-            Globals::FOVCircleColor = { fovCircleColor.x, fovCircleColor.y, fovCircleColor.z };
+            Globals::FOVCircleColor = { fovCircleColor[0], fovCircleColor[1], fovCircleColor[2] };
 
             ImGui::ColorEdit3("ESP box color", (float*)&espBoxColor);
-            Globals::ESPBoxColor = { espBoxColor.x, espBoxColor.y, espBoxColor.z };
+            Globals::ESPBoxColor = { espBoxColor[0], espBoxColor[1], espBoxColor[2] };
 
             ImGui::ColorEdit3("Name color", (float*)&nameColor);
-            Globals::NameColor = { nameColor.x, nameColor.y, nameColor.z };
+            Globals::NameColor = { nameColor[0], nameColor[1], nameColor[2] };
 
             ImGui::ColorEdit3("Distance color", (float*)&distanceColor);
-            Globals::DistanceColor = { distanceColor.x, distanceColor.y, distanceColor.z };
+            Globals::DistanceColor = { distanceColor[0], distanceColor[1], distanceColor[2] };
+
+            ImGui::ColorEdit3("Head dot color", (float*)&headDotColor);
+            Globals::HeadDotColor = { headDotColor[0], headDotColor[1], headDotColor[2] };
+
+            ImGui::InputText("Config name", configName, IM_ARRAYSIZE(configName));
+            if (ImGui::Button("Save config")) {
+                Config::Save(configName, *crosshairColor, *fovCircleColor, *espBoxColor, *nameColor, *distanceColor, *headDotColor);
+            }
+            if (ImGui::Button("Load config")) {
+                Config::Load(configName, *crosshairColor, *fovCircleColor, *espBoxColor, *nameColor, *distanceColor, *headDotColor);
+            }
 
             ImGui::End();
         }

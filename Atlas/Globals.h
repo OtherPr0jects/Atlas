@@ -18,6 +18,7 @@ struct Globals {
 	static bool ESPBoxEnabled;
 	static bool ESPNameEnabled;
 	static bool ESPDistanceEnabled;
+	static bool ESPHeadDotEnabled;
 
 	static bool AimbotEnabled;
 	static bool TeamCheck;
@@ -38,4 +39,5 @@ struct Globals {
 	static Color3 ESPBoxColor;
 	static Color3 NameColor;
 	static Color3 DistanceColor;
+	static Color3 HeadDotColor;
 };

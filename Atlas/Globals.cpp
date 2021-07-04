@@ -15,6 +15,7 @@ VisualEngine Globals::VisualEngine = NULL;
 bool Globals::ESPBoxEnabled = true;
 bool Globals::ESPNameEnabled = true;
 bool Globals::ESPDistanceEnabled = true;
+bool Globals::ESPHeadDotEnabled = true;
 
 bool Globals::AimbotEnabled = true;
 bool Globals::TeamCheck = false;
@@ -35,3 +36,4 @@ Color3 Globals::FOVCircleColor = { 1, 0, 0 };
 Color3 Globals::ESPBoxColor = { 1, 0, 0 };
 Color3 Globals::NameColor = { 1, 1, 1 };
 Color3 Globals::DistanceColor = { 1, 1, 1 };
+Color3 Globals::HeadDotColor = { 1, 0, 0 };
