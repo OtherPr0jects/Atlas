@@ -33,7 +33,7 @@ DirectOverlayCallback drawLoopCallback = NULL;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-void DrawString(std::string str, float fontSize, float x, float y, float r, float g, float b, float a) {
+void DrawString(const std::string& str, float fontSize, float x, float y, float r, float g, float b, float a) {
 	RECT re;
 	GetClientRect(overlayWindow, &re);
 	FLOAT dpix, dpiy;

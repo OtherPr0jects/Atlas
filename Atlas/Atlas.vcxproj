@@ -152,7 +152,6 @@
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Players.cpp" />
-    <ClCompile Include="StringUtility.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -173,7 +172,6 @@
     <ClInclude Include="Addresses.h" />
     <ClInclude Include="RBXClasses.h" />
     <ClInclude Include="RBXStructs.h" />
-    <ClInclude Include="StringUtility.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="imgui\imconfig.h" />

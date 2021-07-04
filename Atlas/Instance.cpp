@@ -16,13 +16,13 @@ std::string Instance::GetClassType() {
 }
 
 std::string Instance::GetName() {
-	uintptr_t nameAddress = Memory::GetPointerAddress(this->Address + 0x28);
+	DWORD nameAddress = Memory::GetPointerAddress(this->Address + 0x28);
 	std::string name = Memory::ReadStringOfUnknownLength(nameAddress);
 
 	int size = Memory::Read<int>((LPCVOID)(nameAddress + 0x14));
 
 	if (size >= 16u) {
-		uintptr_t newNameAddress = Memory::GetPointerAddress(nameAddress);
+		DWORD newNameAddress = Memory::GetPointerAddress(nameAddress);
 		return Memory::ReadStringOfUnknownLength(newNameAddress);
 	} else {
 		return name;

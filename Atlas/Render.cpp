@@ -44,7 +44,7 @@ void drawLoop(int width, int height) {
 	}
 
 	if (Globals::Crosshair) {
-		Vector2 windowDimensions = Render::GetWindowDimensions();
+		Vector2 windowDimensions = Globals::VisualEngine.GetClientDimensions();
 		Vector2 screenCenter = { windowDimensions.X / 2, windowDimensions.Y / 2 };
 
 		Color3 crosshairColor = Globals::CrosshairColor;
@@ -64,7 +64,7 @@ void drawLoop(int width, int height) {
 		);
 	}
 
-	if (!Globals::ESPEnabled) return;
+	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled) return;
 
 	Color3 espBoxColor = Globals::ESPBoxColor;
 	Color3 nameColor = Globals::NameColor;
@@ -116,50 +116,51 @@ void drawLoop(int width, int height) {
 		//float distanceFromLocalHumanoidRootPartPosition = GetVector3Magnitude(SubtractVector3(humanoidRootPartPosition, localHumanoidRootPartPosition));
 		float distanceFromCamera = GetVector3Magnitude(SubtractVector3(cameraPosition, humanoidRootPartPosition));
 
-		float height = legScreenPos.Y - headScreenPos.Y;
-		float width = height / 2;
-
 		float fontSize = 13;
 
-		DrawBox(
-			headScreenPos.X - (width / 2), headScreenPos.Y,
-			width, height,
-			3,
-			espBoxColor.R, espBoxColor.G, espBoxColor.B, 1,
-			false
-		);
-		
-		DrawString(
-			player.GetName(),
-			fontSize,
-			headScreenPos.X, headScreenPos.Y - 25,
-			nameColor.R, nameColor.G, nameColor.B, 1
-		);
+		if (Globals::ESPBoxEnabled) {
+			float height = legScreenPos.Y - headScreenPos.Y;
+			float width = height / 2;
 
-		DrawString(
-			std::to_string((int)distanceFromCamera),
-			fontSize,
-			headScreenPos.X, legScreenPos.Y + 5,
-			distanceColor.R, distanceColor.G, distanceColor.B, 1
-		);
+			float espBoxThickness = Globals::ESPBoxThickness;
+
+			DrawBox(
+				headScreenPos.X - (width / 2), headScreenPos.Y,
+				width, height,
+				espBoxThickness + 2,
+				0, 0, 0, 1,
+				false
+			);
+
+			DrawBox(
+				headScreenPos.X - (width / 2), headScreenPos.Y,
+				width, height,
+				espBoxThickness,
+				espBoxColor.R, espBoxColor.G, espBoxColor.B, 1,
+				false
+			);
+		}
+		if (Globals::ESPNameEnabled) {
+			DrawString(
+				player.GetName(),
+				fontSize,
+				headScreenPos.X, headScreenPos.Y - 25,
+				nameColor.R, nameColor.G, nameColor.B, 1
+			);
+		}
+		if (Globals::ESPDistanceEnabled) {
+			DrawString(
+				"[" + std::to_string((int)distanceFromCamera) + "s]",
+				fontSize,
+				headScreenPos.X, legScreenPos.Y + 5,
+				distanceColor.R, distanceColor.G, distanceColor.B, 1
+			);
+		}
 	}
 }
 
-Vector2 Render::GetWindowDimensions() {
-	Vector2 dimensions = { 0, 0 };
-	
-	Vector2 clientDimensions = Globals::VisualEngine.GetClientDimensions();
-	int width = clientDimensions.X;
-	int height = clientDimensions.Y;
-
-	dimensions.X = width;
-	dimensions.Y = height;
-
-	return dimensions;
-}
-
 Vector2 Render::WorldToScreenPoint(Vector3 position) {
-	Vector2 windowDimensions = Render::GetWindowDimensions();
+	Vector2 windowDimensions = Globals::VisualEngine.GetClientDimensions();
 
 	float* viewMatrix;
 	viewMatrix = Globals::VisualEngine.GetViewMatrix();

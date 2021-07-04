@@ -33,8 +33,8 @@ DWORD Memory::GetProcessID(const wchar_t* processName) {
 	return processID;
 }
 
-uintptr_t Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName) {
-	uintptr_t moduleBaseAddress = 0;
+DWORD Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName) {
+	DWORD moduleBaseAddress = 0;
 
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, processID);
 	if (snapshot == INVALID_HANDLE_VALUE) {
@@ -53,7 +53,7 @@ uintptr_t Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleNam
 
 	do {
 		if (!_wcsicmp(moduleEntry.szModule, moduleName)) {
-			moduleBaseAddress = (uintptr_t)moduleEntry.modBaseAddr;
+			moduleBaseAddress = (DWORD)moduleEntry.modBaseAddr;
 			break;
 		}
 	} while (Module32Next(snapshot, &moduleEntry));
@@ -91,18 +91,17 @@ DWORD Memory::Scan(DWORD baseAddress, DWORD VFTableAddress) {
 }
 
 DWORD Memory::GetPointerAddress(DWORD address) {
-	uintptr_t pointerAddress = GetDMAAddress(address, { 0x0 });
+	DWORD pointerAddress = GetDMAAddress(address, { 0x0 });
 	return pointerAddress;
 }
 
-uintptr_t Memory::GetDMAAddress(uintptr_t ptr, std::vector<unsigned int> offsets) {
-	uintptr_t addr = ptr;
+DWORD Memory::GetDMAAddress(DWORD pointer, std::vector<unsigned int> offsets) {
+	DWORD address = pointer;
 	for (unsigned int i = 0; i < offsets.size(); ++i) {
-		addr = Read<uintptr_t>((LPCVOID)addr);
-		//ReadProcessMemory(handle, (BYTE*)addr, &addr, sizeof(addr), 0);
-		addr += offsets[i];
+		address = Read<DWORD>((LPCVOID)address);
+		address += offsets[i];
 	}
-	return addr;
+	return address;
 }
 
 std::string Memory::ReadStringOfUnknownLength(DWORD address) {

@@ -27,11 +27,10 @@ int main() {
     Globals::RobloxHWND = hwnd;
 
     __int64 userID = 0;
-    std::string characterAppearanceID;
-    std::string connectionLocation;
     std::string teamName;
 
-    uintptr_t baseAddress = Memory::GetModuleBaseAddress(processID, L"RobloxPlayerBeta.exe");
+    DWORD baseAddress = Memory::GetModuleBaseAddress(processID, L"RobloxPlayerBeta.exe");
+    Globals::BaseAddress = baseAddress;
 
     std::cout << "Welcome to Atlas. Scanning..." << std::endl;
 

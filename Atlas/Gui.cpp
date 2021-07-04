@@ -43,7 +43,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 530,
+        500, 590,
         NULL,
         NULL,
         wc.hInstance,
@@ -122,17 +122,23 @@ void Gui::Setup() {
         {
             ImGui::Begin("Atlas", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-            ImGui::Checkbox("ESP", &Globals::ESPEnabled);
+            ImGui::Checkbox("ESP Boxes", &Globals::ESPBoxEnabled);
+            ImGui::Checkbox("ESP Names", &Globals::ESPNameEnabled);
+            ImGui::Checkbox("ESP Distances", &Globals::ESPDistanceEnabled);
+
             ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
             ImGui::Checkbox("Team check", &Globals::TeamCheck);
             ImGui::Checkbox("Crosshair", &Globals::Crosshair);
             ImGui::Checkbox("View FOV circle", &Globals::ViewFOVCircle);
+
             ImGui::ListBox("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
             ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
+
             ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
             ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
             ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
             ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
+            ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
 
             ImGui::ColorEdit3("Crosshair color", (float*)&crosshairColor);
             Globals::CrosshairColor = { crosshairColor.x, crosshairColor.y, crosshairColor.z };
@@ -209,24 +215,26 @@ void ResetDevice() {
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam)) {
         return true;
+    }
 
     switch (msg) {
-    case WM_SIZE:
-        if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED) {
-            g_d3dpp.BackBufferWidth = LOWORD(lParam);
-            g_d3dpp.BackBufferHeight = HIWORD(lParam);
-            ResetDevice();
-        }
-        return 0;
-    case WM_SYSCOMMAND:
-        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+        case WM_SIZE:
+            if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED) {
+                g_d3dpp.BackBufferWidth = LOWORD(lParam);
+                g_d3dpp.BackBufferHeight = HIWORD(lParam);
+                ResetDevice();
+            }
             return 0;
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
+        case WM_SYSCOMMAND:
+            if ((wParam & 0xfff0) == SC_KEYMENU)
+                return 0;
+            break;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
     }
+
     return DefWindowProc(hwnd, msg, wParam, lParam);
 }

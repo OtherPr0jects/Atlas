@@ -5,7 +5,7 @@ class Memory {
 public:
 	static DWORD GetProcessID(const wchar_t* processName);
 
-	static uintptr_t GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName);
+	static DWORD GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName);
 
 	static DWORD Scan(DWORD baseAddress, DWORD VFTableAddress);
 
@@ -18,7 +18,7 @@ public:
 
 	static DWORD GetPointerAddress(DWORD address);
 
-	static uintptr_t GetDMAAddress(uintptr_t ptr, std::vector<unsigned int> offsets);
+	static DWORD GetDMAAddress(DWORD ptr, std::vector<unsigned int> offsets);
 
 	static std::string ReadStringOfUnknownLength(DWORD address);
 };

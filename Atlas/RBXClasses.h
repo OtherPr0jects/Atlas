@@ -43,7 +43,7 @@ class Player : public Instance {
 	public:
 		using Instance::Instance;
 
-		long long GetUserID();
+		__int64 GetUserID();
 
 		Instance GetTeam();
 
