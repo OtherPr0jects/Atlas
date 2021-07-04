@@ -32,13 +32,14 @@ void drawLoop(int width, int height) {
 	ScreenToClient(Globals::RobloxHWND, &cursorPosition);
 
 	if (Globals::ViewFOVCircle) {
-		Color3 fovCircleColor = Globals::FOVCircleColor;
+		float fovCircleColor[3];
+		std::copy(std::begin(Globals::FOVCircleColor), std::end(Globals::FOVCircleColor), std::begin(fovCircleColor));
 
 		DrawCircle(
 			cursorPosition.x, cursorPosition.y,
 			Globals::FOVSize - 10,
 			3,
-			fovCircleColor.R, fovCircleColor.G, fovCircleColor.B, 1,
+			fovCircleColor[0], fovCircleColor[1], fovCircleColor[2], 1,
 			false
 		);
 	}
@@ -47,28 +48,25 @@ void drawLoop(int width, int height) {
 		Vector2 windowDimensions = Globals::VisualEngine.GetClientDimensions();
 		Vector2 screenCenter = { windowDimensions.X / 2, windowDimensions.Y / 2 };
 
-		Color3 crosshairColor = Globals::CrosshairColor;
+		float crosshairColor[3];
+		std::copy(std::begin(Globals::CrosshairColor), std::end(Globals::CrosshairColor), std::begin(crosshairColor));
 
 		DrawLine(
 			screenCenter.X - (20 * Globals::CrosshairScale), screenCenter.Y,
 			screenCenter.X + (20 * Globals::CrosshairScale), screenCenter.Y,
 			Globals::CrosshairThickness,
-			crosshairColor.R, crosshairColor.G, crosshairColor.B, 1
+			crosshairColor[0], crosshairColor[1], crosshairColor[2], 1
 		);
 
 		DrawLine(
 			screenCenter.X, screenCenter.Y - (20 * Globals::CrosshairScale),
 			screenCenter.X, screenCenter.Y + (20 * Globals::CrosshairScale),
 			Globals::CrosshairThickness,
-			crosshairColor.R, crosshairColor.G, crosshairColor.B, 1
+			crosshairColor[0], crosshairColor[1], crosshairColor[2], 1
 		);
 	}
 
 	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled && !Globals::ESPHeadDotEnabled) return;
-
-	Color3 espBoxColor = Globals::ESPBoxColor;
-	Color3 nameColor = Globals::NameColor;
-	Color3 distanceColor = Globals::DistanceColor;
 
 	Instance localTeam = 0;
 	if (Globals::TeamCheck) {
@@ -119,6 +117,9 @@ void drawLoop(int width, int height) {
 		float fontSize = 13;
 
 		if (Globals::ESPBoxEnabled) {
+			float espBoxColor[3];
+			std::copy(std::begin(Globals::ESPBoxColor), std::end(Globals::ESPBoxColor), std::begin(espBoxColor));
+
 			float height = legScreenPos.Y - headScreenPos.Y;
 			float width = height / 2;
 
@@ -136,24 +137,30 @@ void drawLoop(int width, int height) {
 				headScreenPos.X - (width / 2), headScreenPos.Y,
 				width, height,
 				espBoxThickness,
-				espBoxColor.R, espBoxColor.G, espBoxColor.B, 1,
+				espBoxColor[0], espBoxColor[1], espBoxColor[2], 1,
 				false
 			);
 		}
 		if (Globals::ESPNameEnabled) {
+			float nameColor[3];
+			std::copy(std::begin(Globals::NameColor), std::end(Globals::NameColor), std::begin(nameColor));
+
 			DrawString(
 				player.GetName(),
 				fontSize,
 				headScreenPos.X, headScreenPos.Y - 25,
-				nameColor.R, nameColor.G, nameColor.B, 1
+				nameColor[0], nameColor[1], nameColor[2], 1
 			);
 		}
 		if (Globals::ESPDistanceEnabled) {
+			float distanceColor[3];
+			std::copy(std::begin(Globals::DistanceColor), std::end(Globals::DistanceColor), std::begin(distanceColor));
+
 			DrawString(
 				"[" + std::to_string((int)distanceFromCamera) + "s]",
 				fontSize,
 				headScreenPos.X, legScreenPos.Y + 5,
-				distanceColor.R, distanceColor.G, distanceColor.B, 1
+				distanceColor[0], distanceColor[1], distanceColor[2], 1
 			);
 		}
 		if (Globals::ESPHeadDotEnabled) {
@@ -165,13 +172,14 @@ void drawLoop(int width, int height) {
 			Vector2 realHeadScreenPos = Render::WorldToScreenPoint(headPosition);
 			if (realHeadScreenPos.X == -1) continue;
 
-			Color3 headDotColor = Globals::HeadDotColor;
+			float headDotColor[3];
+			std::copy(std::begin(Globals::HeadDotColor), std::end(Globals::HeadDotColor), std::begin(headDotColor));
 
 			DrawCircle(
 				realHeadScreenPos.X, realHeadScreenPos.Y,
 				500 / distanceFromCamera,
 				3,
-				headDotColor.R, headDotColor.G, headDotColor.B, 0.4,
+				headDotColor[0], headDotColor[1], headDotColor[2], 0.4,
 				true
 			);
 		}

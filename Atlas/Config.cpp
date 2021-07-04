@@ -20,7 +20,7 @@ void loadFile(const std::string& filePath, std::string& data) {
     inFile.close();
 }
 
-void Config::Save(char* configName, float& crosshairColor, float& fovCircleColor, float& espBoxColor, float& nameColor, float& distanceColor, float& headDotColor) {
+void Config::Save(char* configName) {
     json config;
 
     config["ESPBoxes"] = Globals::ESPBoxEnabled;
@@ -41,18 +41,18 @@ void Config::Save(char* configName, float& crosshairColor, float& fovCircleColor
     config["AimbotSmoothness"] = Globals::AimbotSmoothness;
     config["ESPBoxThickness"] = Globals::ESPBoxThickness;
 
-    config["CrosshairColor"] = crosshairColor;
-    config["FOVCircleColor"] = fovCircleColor;
-    config["ESPBoxColor"] = espBoxColor;
-    config["NameColor"] = nameColor;
-    config["DistanceColor"] = distanceColor;
-    config["HeadDotColor"] = headDotColor;
+    config["CrosshairColor"] = Globals::CrosshairColor;
+    config["FOVCircleColor"] = Globals::FOVCircleColor;
+    config["ESPBoxColor"] = Globals::ESPBoxColor;
+    config["NameColor"] = Globals::NameColor;
+    config["DistanceColor"] = Globals::DistanceColor;
+    config["HeadDotColor"] = Globals::HeadDotColor;
 
     saveFile("Configs\\" + std::string(configName) + ".txt", config.dump());
     MessageBoxA(0, (LPCSTR)("Saved config '" + std::string(configName) + "'").c_str(), "Saved Config", MB_OK);
 }
 
-void Config::Load(char* configName, float& crosshairColor, float& fovCircleColor, float& espBoxColor, float& nameColor, float& distanceColor, float& headDotColor) {
+void Config::Load(char* configName) {
     std::string configJson = "";
     loadFile("Configs\\" + std::string(configName) + ".txt", configJson);
     if (!configJson[0]) {
@@ -80,9 +80,11 @@ void Config::Load(char* configName, float& crosshairColor, float& fovCircleColor
     Globals::AimbotSmoothness = config["AimbotSmoothness"];
     Globals::ESPBoxThickness = config["ESPBoxThickness"];
 
-    config["CrosshairColor"].get_to(crosshairColor);
-    config["ESPBoxColor"].get_to(espBoxColor);
-    config["NameColor"].get_to(nameColor);
-    config["DistanceColor"].get_to(distanceColor);
-    config["HeadDotColor"].get_to(headDotColor);
+    config["CrosshairColor"].get_to(Globals::CrosshairColor);
+    config["ESPBoxColor"].get_to(Globals::ESPBoxColor);
+    config["NameColor"].get_to(Globals::NameColor);
+    config["DistanceColor"].get_to(Globals::DistanceColor);
+    config["HeadDotColor"].get_to(Globals::HeadDotColor);
+
+    MessageBoxA(0, (LPCSTR)("Loaded config '" + std::string(configName) + "'").c_str(), "Loaded Config", MB_OK);
 }

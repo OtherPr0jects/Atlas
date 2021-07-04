@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include "RBXClasses.h"
-#include "RBXStructs.h"
 
 struct Globals {
 	static HANDLE Handle;
@@ -34,10 +33,10 @@ struct Globals {
 	static float AimbotSmoothness;
 	static float ESPBoxThickness;
 
-	static Color3 CrosshairColor;
-	static Color3 FOVCircleColor;
-	static Color3 ESPBoxColor;
-	static Color3 NameColor;
-	static Color3 DistanceColor;
-	static Color3 HeadDotColor;
+	static float CrosshairColor[3];
+	static float FOVCircleColor[3];
+	static float ESPBoxColor[3];
+	static float NameColor[3];
+	static float DistanceColor[3];
+	static float HeadDotColor[3];
 };

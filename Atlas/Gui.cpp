@@ -71,13 +71,6 @@ void Gui::Setup() {
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX9_Init(g_pd3dDevice);
 
-    float crosshairColor[3] = { Globals::CrosshairColor.R, Globals::CrosshairColor.G, Globals::CrosshairColor.B };
-    float fovCircleColor[3] = { Globals::FOVCircleColor.R, Globals::FOVCircleColor.G, Globals::FOVCircleColor.B };
-    float espBoxColor[3] = { Globals::ESPBoxColor.R, Globals::ESPBoxColor.G, Globals::ESPBoxColor.B };
-    float nameColor[3] = { Globals::NameColor.R, Globals::NameColor.G, Globals::NameColor.B };
-    float distanceColor[3] = { Globals::DistanceColor.R, Globals::DistanceColor.G, Globals::DistanceColor.B };
-    float headDotColor[3] = { Globals::HeadDotColor.R, Globals::HeadDotColor.G, Globals::HeadDotColor.B };
-
     const char* targetOptions[] = {
         "Head",
         "HumanoidRootPart",
@@ -148,30 +141,24 @@ void Gui::Setup() {
             ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
             ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
 
-            ImGui::ColorEdit3("Crosshair color", (float*)&crosshairColor);
-            Globals::CrosshairColor = { crosshairColor[0], crosshairColor[1], crosshairColor[2] };
+            ImGui::ColorEdit3("Crosshair color", (float*)&Globals::CrosshairColor);
 
-            ImGui::ColorEdit3("FOV circle color", (float*)&fovCircleColor);
-            Globals::FOVCircleColor = { fovCircleColor[0], fovCircleColor[1], fovCircleColor[2] };
+            ImGui::ColorEdit3("FOV circle color", (float*)&Globals::FOVCircleColor);
 
-            ImGui::ColorEdit3("ESP box color", (float*)&espBoxColor);
-            Globals::ESPBoxColor = { espBoxColor[0], espBoxColor[1], espBoxColor[2] };
+            ImGui::ColorEdit3("ESP box color", (float*)&Globals::ESPBoxColor);
 
-            ImGui::ColorEdit3("Name color", (float*)&nameColor);
-            Globals::NameColor = { nameColor[0], nameColor[1], nameColor[2] };
+            ImGui::ColorEdit3("Name color", (float*)&Globals::NameColor);
 
-            ImGui::ColorEdit3("Distance color", (float*)&distanceColor);
-            Globals::DistanceColor = { distanceColor[0], distanceColor[1], distanceColor[2] };
+            ImGui::ColorEdit3("Distance color", (float*)&Globals::DistanceColor);
 
-            ImGui::ColorEdit3("Head dot color", (float*)&headDotColor);
-            Globals::HeadDotColor = { headDotColor[0], headDotColor[1], headDotColor[2] };
+            ImGui::ColorEdit3("Head dot color", (float*)&Globals::HeadDotColor);
 
             ImGui::InputText("Config name", configName, IM_ARRAYSIZE(configName));
             if (ImGui::Button("Save config")) {
-                Config::Save(configName, *crosshairColor, *fovCircleColor, *espBoxColor, *nameColor, *distanceColor, *headDotColor);
+                Config::Save(configName);
             }
             if (ImGui::Button("Load config")) {
-                Config::Load(configName, *crosshairColor, *fovCircleColor, *espBoxColor, *nameColor, *distanceColor, *headDotColor);
+                Config::Load(configName);
             }
 
             ImGui::End();

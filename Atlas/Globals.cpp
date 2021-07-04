@@ -31,9 +31,9 @@ float Globals::FOVSize = 100;
 float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
 
-Color3 Globals::CrosshairColor = { 1, 0, 0 };
-Color3 Globals::FOVCircleColor = { 1, 0, 0 };
-Color3 Globals::ESPBoxColor = { 1, 0, 0 };
-Color3 Globals::NameColor = { 1, 1, 1 };
-Color3 Globals::DistanceColor = { 1, 1, 1 };
-Color3 Globals::HeadDotColor = { 1, 0, 0 };
+float Globals::CrosshairColor[3] = { 1, 0, 0 };
+float Globals::FOVCircleColor[3] = { 1, 0, 0 };
+float Globals::ESPBoxColor[3] = { 1, 0, 0 };
+float Globals::NameColor[3] = { 1, 1, 1 };
+float Globals::DistanceColor[3] = { 1, 1, 1 };
+float Globals::HeadDotColor[3] = { 1, 0, 0 };

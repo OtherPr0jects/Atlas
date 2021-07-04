@@ -17,9 +17,3 @@ struct Vector4 {
 	float Z;
 	float W;
 };
-
-struct Color3 {
-	float R;
-	float G;
-	float B;
-};
