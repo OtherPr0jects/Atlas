@@ -37,8 +37,11 @@ void Config::Save(char* configName) {
     json config;
 
     config["ESPBoxes"] = Globals::ESPBoxEnabled;
+    config["ESPTracers"] = Globals::ESPTracerEnabled;
     config["ESPNames"] = Globals::ESPNameEnabled;
     config["ESPDistances"] = Globals::ESPDistanceEnabled;
+
+    config["TracerStartLocation"] = Globals::TracerStartLocation;
 
     config["Aimbot"] = Globals::AimbotEnabled;
     config["TeamCheck"] = Globals::TeamCheck;
@@ -53,10 +56,12 @@ void Config::Save(char* configName) {
     config["FOVSize"] = Globals::FOVSize;
     config["AimbotSmoothness"] = Globals::AimbotSmoothness;
     config["ESPBoxThickness"] = Globals::ESPBoxThickness;
+    config["ESPTracerThickness"] = Globals::TracerThickness;
 
     config["CrosshairColor"] = Globals::CrosshairColor;
     config["FOVCircleColor"] = Globals::FOVCircleColor;
     config["ESPBoxColor"] = Globals::ESPBoxColor;
+    config["TracerColor"] = Globals::TracerColor;
     config["NameColor"] = Globals::NameColor;
     config["DistanceColor"] = Globals::DistanceColor;
     config["HeadDotColor"] = Globals::HeadDotColor;
@@ -76,8 +81,11 @@ void Config::Load(char* configName) {
     json config = json::parse(configJson);
 
     Globals::ESPBoxEnabled = config["ESPBoxes"];
+    Globals::ESPTracerEnabled = config["ESPTracers"];
     Globals::ESPNameEnabled = config["ESPNames"];
     Globals::ESPDistanceEnabled = config["ESPDistances"];
+
+    Globals::TracerStartLocation = config["TracerStartLocation"];
 
     Globals::AimbotEnabled = config["Aimbot"];
     Globals::TeamCheck = config["TeamCheck"];
@@ -92,9 +100,11 @@ void Config::Load(char* configName) {
     Globals::FOVSize = config["FOVSize"];
     Globals::AimbotSmoothness = config["AimbotSmoothness"];
     Globals::ESPBoxThickness = config["ESPBoxThickness"];
+    Globals::TracerThickness = config["ESPTracerThickness"];
 
     config["CrosshairColor"].get_to(Globals::CrosshairColor);
     config["ESPBoxColor"].get_to(Globals::ESPBoxColor);
+    config["TracerColor"].get_to(Globals::TracerColor);
     config["NameColor"].get_to(Globals::NameColor);
     config["DistanceColor"].get_to(Globals::DistanceColor);
     config["HeadDotColor"].get_to(Globals::HeadDotColor);

@@ -7,7 +7,4 @@ struct Addresses {
 	// VFTables.
 	static const DWORD DataModel = 0x1CACFD8;
 	static const DWORD VisualEngine = 0x1DE0B90;
-
-	// Other.
-	static const DWORD PlaceID = 0x24F2A40;
 };

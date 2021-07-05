@@ -121,16 +121,25 @@ void Gui::Setup() {
 
             if (ImGui::BeginTabItem("ESP")) {
                 ImGui::Checkbox("ESP boxes", &Globals::ESPBoxEnabled);
-                ImGui::Checkbox("ESP names", &Globals::ESPNameEnabled);
-                ImGui::Checkbox("ESP distances", &Globals::ESPDistanceEnabled);
-                ImGui::Checkbox("ESP head dots", &Globals::ESPHeadDotEnabled);
+                ImGui::Checkbox("Tracers", &Globals::ESPTracerEnabled);
+                if (Globals::ESPTracerEnabled) {
+                    ImGui::SameLine();
+                    ImGui::RadioButton("From bottom center", &Globals::TracerStartLocation, 0);
+                    ImGui::SameLine();
+                    ImGui::RadioButton("From cursor", &Globals::TracerStartLocation, 1);
+                }
+                ImGui::Checkbox("Names", &Globals::ESPNameEnabled);
+                ImGui::Checkbox("Distances", &Globals::ESPDistanceEnabled);
+                ImGui::Checkbox("Head dots", &Globals::ESPHeadDotEnabled);
 
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
+                ImGui::SliderFloat("Tracer thickness", &Globals::TracerThickness, 1, 6);
 
                 ImGui::ColorEdit3("ESP box color", (float*)&Globals::ESPBoxColor);
                 ImGui::ColorEdit3("Name color", (float*)&Globals::NameColor);
                 ImGui::ColorEdit3("Distance color", (float*)&Globals::DistanceColor);
                 ImGui::ColorEdit3("Head dot color", (float*)&Globals::HeadDotColor);
+                ImGui::ColorEdit3("Tracer color", (float*)&Globals::TracerColor);
 
                 ImGui::EndTabItem();
             }

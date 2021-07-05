@@ -13,9 +13,12 @@ Player Globals::LocalPlayer = NULL;
 VisualEngine Globals::VisualEngine = NULL;
 
 bool Globals::ESPBoxEnabled = true;
+bool Globals::ESPTracerEnabled = true;
 bool Globals::ESPNameEnabled = true;
 bool Globals::ESPDistanceEnabled = true;
 bool Globals::ESPHeadDotEnabled = true;
+
+int Globals::TracerStartLocation = 0;
 
 bool Globals::AimbotEnabled = true;
 bool Globals::TeamCheck = false;
@@ -30,10 +33,12 @@ float Globals::CrosshairThickness = 2;
 float Globals::FOVSize = 100;
 float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
+float Globals::TracerThickness = 2;
 
 float Globals::CrosshairColor[3] = { 1, 0, 0 };
 float Globals::FOVCircleColor[3] = { 1, 0, 0 };
 float Globals::ESPBoxColor[3] = { 1, 0, 0 };
+float Globals::TracerColor[3] = { 1, 0, 0 };
 float Globals::NameColor[3] = { 1, 1, 1 };
 float Globals::DistanceColor[3] = { 1, 1, 1 };
 float Globals::HeadDotColor[3] = { 1, 0, 0 };

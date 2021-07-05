@@ -31,6 +31,9 @@ void drawLoop(int width, int height) {
 	GetCursorPos(&cursorPosition);
 	ScreenToClient(Globals::RobloxHWND, &cursorPosition);
 
+	Vector2 clientDimensions = Globals::VisualEngine.GetClientDimensions();
+	Vector2 screenCenter = { clientDimensions.X / 2, clientDimensions.Y / 2 };
+
 	if (Globals::ViewFOVCircle) {
 		float fovCircleColor[3];
 		std::copy(std::begin(Globals::FOVCircleColor), std::end(Globals::FOVCircleColor), std::begin(fovCircleColor));
@@ -45,9 +48,6 @@ void drawLoop(int width, int height) {
 	}
 
 	if (Globals::Crosshair) {
-		Vector2 windowDimensions = Globals::VisualEngine.GetClientDimensions();
-		Vector2 screenCenter = { windowDimensions.X / 2, windowDimensions.Y / 2 };
-
 		float crosshairColor[3];
 		std::copy(std::begin(Globals::CrosshairColor), std::end(Globals::CrosshairColor), std::begin(crosshairColor));
 
@@ -66,7 +66,7 @@ void drawLoop(int width, int height) {
 		);
 	}
 
-	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled && !Globals::ESPHeadDotEnabled) return;
+	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled && !Globals::ESPHeadDotEnabled && !Globals::ESPTracerEnabled) return;
 
 	Instance localTeam = 0;
 	if (Globals::TeamCheck) {
@@ -125,7 +125,7 @@ void drawLoop(int width, int height) {
 
 			float espBoxThickness = Globals::ESPBoxThickness;
 
-			DrawBox(
+			DrawBox( // Black outline.
 				headScreenPos.X - (width / 2), headScreenPos.Y,
 				width, height,
 				espBoxThickness + 2,
@@ -139,6 +139,19 @@ void drawLoop(int width, int height) {
 				espBoxThickness,
 				espBoxColor[0], espBoxColor[1], espBoxColor[2], 1,
 				false
+			);
+		}
+		if (Globals::ESPTracerEnabled) {
+			bool fromBottomCenter = (Globals::TracerStartLocation == 0);
+
+			float tracerColor[3];
+			std::copy(std::begin(Globals::TracerColor), std::end(Globals::TracerColor), std::begin(tracerColor));
+
+			DrawLine(
+				fromBottomCenter ? screenCenter.X : cursorPosition.x, fromBottomCenter ? clientDimensions.Y : cursorPosition.y,
+				legScreenPos.X, legScreenPos.Y,
+				Globals::TracerThickness,
+				tracerColor[0], tracerColor[1], tracerColor[2], 1
 			);
 		}
 		if (Globals::ESPNameEnabled) {
@@ -179,7 +192,7 @@ void drawLoop(int width, int height) {
 				realHeadScreenPos.X, realHeadScreenPos.Y,
 				500 / distanceFromCamera,
 				3,
-				headDotColor[0], headDotColor[1], headDotColor[2], 0.4,
+				headDotColor[0], headDotColor[1], headDotColor[2], 0.45,
 				true
 			);
 		}
@@ -187,7 +200,7 @@ void drawLoop(int width, int height) {
 }
 
 Vector2 Render::WorldToScreenPoint(Vector3 position) {
-	Vector2 windowDimensions = Globals::VisualEngine.GetClientDimensions();
+	Vector2 clientDimensions = Globals::VisualEngine.GetClientDimensions();
 
 	float* viewMatrix;
 	viewMatrix = Globals::VisualEngine.GetViewMatrix();
@@ -208,8 +221,8 @@ Vector2 Render::WorldToScreenPoint(Vector3 position) {
 	NDC.Z = clipCoords.Z / clipCoords.W;
 
 	return {
-		(windowDimensions.X / 2 * NDC.X) + (NDC.X + windowDimensions.X / 2),
-		-(windowDimensions.Y / 2 * NDC.Y) + (NDC.Y + windowDimensions.Y / 2)
+		(clientDimensions.X / 2 * NDC.X) + (NDC.X + clientDimensions.X / 2),
+		-(clientDimensions.Y / 2 * NDC.Y) + (NDC.Y + clientDimensions.Y / 2)
 	};
 }
 
