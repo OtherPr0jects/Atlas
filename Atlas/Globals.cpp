@@ -35,10 +35,11 @@ float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
 float Globals::TracerThickness = 2;
 
-float Globals::CrosshairColor[3] = { 1, 0, 0 };
-float Globals::FOVCircleColor[3] = { 1, 0, 0 };
-float Globals::ESPBoxColor[3] = { 1, 0, 0 };
-float Globals::TracerColor[3] = { 1, 0, 0 };
-float Globals::NameColor[3] = { 1, 1, 1 };
-float Globals::DistanceColor[3] = { 1, 1, 1 };
-float Globals::HeadDotColor[3] = { 1, 0, 0 };
+// Format is RGBA.
+float Globals::CrosshairColor[4] = { 1, 0, 0, 1 };
+float Globals::FOVCircleColor[4] = { 1, 0, 0, 1 };
+float Globals::ESPBoxColor[4] = { 1, 0, 0, 1 };
+float Globals::TracerColor[4] = { 1, 0, 0, 1 };
+float Globals::NameColor[4] = { 1, 1, 1, 1 };
+float Globals::DistanceColor[4] = { 1, 1, 1, 1 };
+float Globals::HeadDotColor[4] = { 1, 0, 0, 0.45 };

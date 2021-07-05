@@ -35,34 +35,34 @@ void drawLoop(int width, int height) {
 	Vector2 screenCenter = { clientDimensions.X / 2, clientDimensions.Y / 2 };
 
 	if (Globals::ViewFOVCircle) {
-		float fovCircleColor[3];
+		float fovCircleColor[4];
 		std::copy(std::begin(Globals::FOVCircleColor), std::end(Globals::FOVCircleColor), std::begin(fovCircleColor));
 
 		DrawCircle(
 			cursorPosition.x, cursorPosition.y,
 			Globals::FOVSize - 10,
 			3,
-			fovCircleColor[0], fovCircleColor[1], fovCircleColor[2], 1,
+			fovCircleColor[0], fovCircleColor[1], fovCircleColor[2], fovCircleColor[3],
 			false
 		);
 	}
 
 	if (Globals::Crosshair) {
-		float crosshairColor[3];
+		float crosshairColor[4];
 		std::copy(std::begin(Globals::CrosshairColor), std::end(Globals::CrosshairColor), std::begin(crosshairColor));
 
 		DrawLine(
 			screenCenter.X - (20 * Globals::CrosshairScale), screenCenter.Y,
 			screenCenter.X + (20 * Globals::CrosshairScale), screenCenter.Y,
 			Globals::CrosshairThickness,
-			crosshairColor[0], crosshairColor[1], crosshairColor[2], 1
+			crosshairColor[0], crosshairColor[1], crosshairColor[2], crosshairColor[3]
 		);
 
 		DrawLine(
 			screenCenter.X, screenCenter.Y - (20 * Globals::CrosshairScale),
 			screenCenter.X, screenCenter.Y + (20 * Globals::CrosshairScale),
 			Globals::CrosshairThickness,
-			crosshairColor[0], crosshairColor[1], crosshairColor[2], 1
+			crosshairColor[0], crosshairColor[1], crosshairColor[2], crosshairColor[3]
 		);
 	}
 
@@ -117,7 +117,7 @@ void drawLoop(int width, int height) {
 		float fontSize = 13;
 
 		if (Globals::ESPBoxEnabled) {
-			float espBoxColor[3];
+			float espBoxColor[4];
 			std::copy(std::begin(Globals::ESPBoxColor), std::end(Globals::ESPBoxColor), std::begin(espBoxColor));
 
 			float height = legScreenPos.Y - headScreenPos.Y;
@@ -137,43 +137,43 @@ void drawLoop(int width, int height) {
 				headScreenPos.X - (width / 2), headScreenPos.Y,
 				width, height,
 				espBoxThickness,
-				espBoxColor[0], espBoxColor[1], espBoxColor[2], 1,
+				espBoxColor[0], espBoxColor[1], espBoxColor[2], espBoxColor[3],
 				false
 			);
 		}
 		if (Globals::ESPTracerEnabled) {
 			bool fromBottomCenter = (Globals::TracerStartLocation == 0);
 
-			float tracerColor[3];
+			float tracerColor[4];
 			std::copy(std::begin(Globals::TracerColor), std::end(Globals::TracerColor), std::begin(tracerColor));
 
 			DrawLine(
 				fromBottomCenter ? screenCenter.X : cursorPosition.x, fromBottomCenter ? clientDimensions.Y : cursorPosition.y,
 				legScreenPos.X, legScreenPos.Y,
 				Globals::TracerThickness,
-				tracerColor[0], tracerColor[1], tracerColor[2], 1
+				tracerColor[0], tracerColor[1], tracerColor[2], tracerColor[3]
 			);
 		}
 		if (Globals::ESPNameEnabled) {
-			float nameColor[3];
+			float nameColor[4];
 			std::copy(std::begin(Globals::NameColor), std::end(Globals::NameColor), std::begin(nameColor));
 
 			DrawString(
 				player.GetName(),
 				fontSize,
 				headScreenPos.X, headScreenPos.Y - 25,
-				nameColor[0], nameColor[1], nameColor[2], 1
+				nameColor[0], nameColor[1], nameColor[2], nameColor[3]
 			);
 		}
 		if (Globals::ESPDistanceEnabled) {
-			float distanceColor[3];
+			float distanceColor[4];
 			std::copy(std::begin(Globals::DistanceColor), std::end(Globals::DistanceColor), std::begin(distanceColor));
 
 			DrawString(
 				"[" + std::to_string((int)distanceFromCamera) + "s]",
 				fontSize,
 				headScreenPos.X, legScreenPos.Y + 5,
-				distanceColor[0], distanceColor[1], distanceColor[2], 1
+				distanceColor[0], distanceColor[1], distanceColor[2], distanceColor[3]
 			);
 		}
 		if (Globals::ESPHeadDotEnabled) {
@@ -185,14 +185,14 @@ void drawLoop(int width, int height) {
 			Vector2 realHeadScreenPos = Render::WorldToScreenPoint(headPosition);
 			if (realHeadScreenPos.X == -1) continue;
 
-			float headDotColor[3];
+			float headDotColor[4];
 			std::copy(std::begin(Globals::HeadDotColor), std::end(Globals::HeadDotColor), std::begin(headDotColor));
 
 			DrawCircle(
 				realHeadScreenPos.X, realHeadScreenPos.Y,
 				500 / distanceFromCamera,
 				3,
-				headDotColor[0], headDotColor[1], headDotColor[2], 0.45,
+				headDotColor[0], headDotColor[1], headDotColor[2], headDotColor[3],
 				true
 			);
 		}

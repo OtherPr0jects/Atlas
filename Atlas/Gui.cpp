@@ -135,11 +135,11 @@ void Gui::Setup() {
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
                 ImGui::SliderFloat("Tracer thickness", &Globals::TracerThickness, 1, 6);
 
-                ImGui::ColorEdit3("ESP box color", (float*)&Globals::ESPBoxColor);
-                ImGui::ColorEdit3("Name color", (float*)&Globals::NameColor);
-                ImGui::ColorEdit3("Distance color", (float*)&Globals::DistanceColor);
-                ImGui::ColorEdit3("Head dot color", (float*)&Globals::HeadDotColor);
-                ImGui::ColorEdit3("Tracer color", (float*)&Globals::TracerColor);
+                ImGui::ColorEdit4("ESP box color", (float*)&Globals::ESPBoxColor);
+                ImGui::ColorEdit4("Name color", (float*)&Globals::NameColor);
+                ImGui::ColorEdit4("Distance color", (float*)&Globals::DistanceColor);
+                ImGui::ColorEdit4("Head dot color", (float*)&Globals::HeadDotColor);
+                ImGui::ColorEdit4("Tracer color", (float*)&Globals::TracerColor);
 
                 ImGui::EndTabItem();
             }
@@ -152,9 +152,9 @@ void Gui::Setup() {
                 ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
 
                 ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
-                ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 3, 15);
+                ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 1, 15);
 
-                ImGui::ColorEdit3("FOV circle color", (float*)&Globals::FOVCircleColor);
+                ImGui::ColorEdit4("FOV circle color", (float*)&Globals::FOVCircleColor);
 
                 ImGui::EndTabItem();
             }
@@ -166,7 +166,7 @@ void Gui::Setup() {
                 ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
                 ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
 
-                ImGui::ColorEdit3("Crosshair color", (float*)&Globals::CrosshairColor);
+                ImGui::ColorEdit4("Crosshair color", (float*)&Globals::CrosshairColor);
 
                 ImGui::EndTabItem();
             }

@@ -37,11 +37,11 @@ struct Globals {
 	static float ESPBoxThickness;
 	static float TracerThickness;
 
-	static float CrosshairColor[3];
-	static float FOVCircleColor[3];
-	static float ESPBoxColor[3];
-	static float TracerColor[3];
-	static float NameColor[3];
-	static float DistanceColor[3];
-	static float HeadDotColor[3];
+	static float CrosshairColor[4];
+	static float FOVCircleColor[4];
+	static float ESPBoxColor[4];
+	static float TracerColor[4];
+	static float NameColor[4];
+	static float DistanceColor[4];
+	static float HeadDotColor[4];
 };
