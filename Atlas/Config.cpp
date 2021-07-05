@@ -6,6 +6,19 @@
 
 using json = nlohmann::json;
 
+void replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t startPosition = str.find(from);
+    if (startPosition == std::string::npos) return;
+    str.replace(startPosition, from.length(), to);
+}
+
+std::string getExecutablePath() { // Location of the executable file. NOT the current working directory.
+    char path[MAX_PATH];
+    std::string stringPath = std::string(path, GetModuleFileNameA(0, path, sizeof(path)));
+    replace(stringPath, "\\Atlas.exe", "");
+    return stringPath;
+}
+
 void saveFile(const std::string& filePath, const std::string& data) {
     std::ofstream outFile;
     outFile.open(filePath);
@@ -27,7 +40,7 @@ void Config::Save(char* configName) {
     config["ESPNames"] = Globals::ESPNameEnabled;
     config["ESPDistances"] = Globals::ESPDistanceEnabled;
 
-    config["Aimbot"] = Globals::ESPBoxEnabled;
+    config["Aimbot"] = Globals::AimbotEnabled;
     config["TeamCheck"] = Globals::TeamCheck;
     config["Crosshair"] = Globals::Crosshair;
     config["ViewFOVCircle"] = Globals::ViewFOVCircle;
@@ -48,13 +61,13 @@ void Config::Save(char* configName) {
     config["DistanceColor"] = Globals::DistanceColor;
     config["HeadDotColor"] = Globals::HeadDotColor;
 
-    saveFile("Configs\\" + std::string(configName) + ".txt", config.dump());
+    saveFile(getExecutablePath() + "\\Configs\\" + std::string(configName) + ".txt", config.dump());
     MessageBoxA(0, (LPCSTR)("Saved config '" + std::string(configName) + "'").c_str(), "Saved Config", MB_OK);
 }
 
 void Config::Load(char* configName) {
     std::string configJson = "";
-    loadFile("Configs\\" + std::string(configName) + ".txt", configJson);
+    loadFile(getExecutablePath() + "\\Configs\\" + std::string(configName) + ".txt", configJson);
     if (!configJson[0]) {
         MessageBoxA(0, (LPCSTR)("Failed to load config '" + std::string(configName) + "'").c_str(), "Failed to Load Config", MB_OK);
         return;
@@ -66,7 +79,7 @@ void Config::Load(char* configName) {
     Globals::ESPNameEnabled = config["ESPNames"];
     Globals::ESPDistanceEnabled = config["ESPDistances"];
 
-    Globals::ESPBoxEnabled = config["Aimbot"];
+    Globals::AimbotEnabled = config["Aimbot"];
     Globals::TeamCheck = config["TeamCheck"];
     Globals::Crosshair = config["Crosshair"];
     Globals::ViewFOVCircle = config["ViewFOVCircle"];

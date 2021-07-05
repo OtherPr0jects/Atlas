@@ -121,11 +121,8 @@ void Gui::Setup() {
 
             if (ImGui::BeginTabItem("ESP")) {
                 ImGui::Checkbox("ESP boxes", &Globals::ESPBoxEnabled);
-                ImGui::SameLine();
                 ImGui::Checkbox("ESP names", &Globals::ESPNameEnabled);
-                ImGui::SameLine();
                 ImGui::Checkbox("ESP distances", &Globals::ESPDistanceEnabled);
-                ImGui::SameLine();
                 ImGui::Checkbox("ESP head dots", &Globals::ESPHeadDotEnabled);
 
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
