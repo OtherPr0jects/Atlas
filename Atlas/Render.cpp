@@ -41,7 +41,7 @@ void drawLoop(int width, int height) {
 		DrawCircle(
 			cursorPosition.x, cursorPosition.y,
 			Globals::FOVSize - 10,
-			3,
+			Globals::FOVCircleThickness,
 			fovCircleColor[0], fovCircleColor[1], fovCircleColor[2], fovCircleColor[3],
 			false
 		);

@@ -33,6 +33,7 @@ struct Globals {
 	static float CrosshairScale;
 	static float CrosshairThickness;
 	static float FOVSize;
+	static float FOVCircleThickness;
 	static float AimbotSmoothness;
 	static float ESPBoxThickness;
 	static float TracerThickness;

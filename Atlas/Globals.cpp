@@ -31,6 +31,7 @@ int Globals::AimbotBind = 0;
 float Globals::CrosshairScale = 1;
 float Globals::CrosshairThickness = 2;
 float Globals::FOVSize = 100;
+float Globals::FOVCircleThickness = 3;
 float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
 float Globals::TracerThickness = 2;

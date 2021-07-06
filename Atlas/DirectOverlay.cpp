@@ -1,3 +1,5 @@
+// https://github.com/coltonon/D2DOverlay
+
 #include <iostream>
 #include <comdef.h>
 #include <d2d1.h>

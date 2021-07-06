@@ -43,7 +43,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 350,
+        500, 370,
         NULL,
         NULL,
         wc.hInstance,
@@ -152,6 +152,7 @@ void Gui::Setup() {
                 ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
 
                 ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
+                ImGui::SliderFloat("FOV circle thickness", &Globals::FOVCircleThickness, 1, 8);
                 ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 1, 15);
 
                 ImGui::ColorEdit4("FOV circle color", (float*)&Globals::FOVCircleColor);

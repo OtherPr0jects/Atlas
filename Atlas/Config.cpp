@@ -54,6 +54,7 @@ void Config::Save(char* configName) {
     config["CrosshairScale"] = Globals::CrosshairScale;
     config["CrosshairThickness"] = Globals::CrosshairThickness;
     config["FOVSize"] = Globals::FOVSize;
+    config["FOVCircleThickness"] = Globals::FOVCircleThickness;
     config["AimbotSmoothness"] = Globals::AimbotSmoothness;
     config["ESPBoxThickness"] = Globals::ESPBoxThickness;
     config["ESPTracerThickness"] = Globals::TracerThickness;
@@ -98,6 +99,7 @@ void Config::Load(char* configName) {
     Globals::CrosshairScale = config["CrosshairScale"];
     Globals::CrosshairThickness = config["CrosshairThickness"];
     Globals::FOVSize = config["FOVSize"];
+    Globals::FOVCircleThickness = config["FOVCircleThickness"];
     Globals::AimbotSmoothness = config["AimbotSmoothness"];
     Globals::ESPBoxThickness = config["ESPBoxThickness"];
     Globals::TracerThickness = config["ESPTracerThickness"];
