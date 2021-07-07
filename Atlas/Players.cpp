@@ -2,7 +2,7 @@
 #include "Memory.h"
 
 Player Players::GetLocalPlayer() {
-	return Player(Memory::GetPointerAddress(this->Address + 0x110));
+	return Player(Memory::GetPointerAddress(this->Address + 0x128));
 }
 
 std::vector<Player> Players::GetPlayers() {

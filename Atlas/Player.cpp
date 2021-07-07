@@ -6,9 +6,9 @@ __int64 Player::GetUserID() {
 }
 
 Instance Player::GetTeam() {
-	return Instance(Memory::GetPointerAddress(this->Address + 0x98));
+	return Instance(Memory::GetPointerAddress(this->Address + 0xB0));
 }
 
 Instance Player::GetCharacter() {
-	return Instance(Memory::GetPointerAddress(this->Address + 0x64));
+	return Instance(Memory::GetPointerAddress(this->Address + 0x7C));
 }

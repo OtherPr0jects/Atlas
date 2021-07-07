@@ -5,6 +5,6 @@ struct Addresses {
 	// Contains offset of address from base address.
 
 	// VFTables.
-	static const DWORD DataModel = 0x1CACFD8;
-	static const DWORD VisualEngine = 0x1DE0B90;
+	static const DWORD DataModel = 0x1CF0080;
+	static const DWORD VisualEngine = 0x1E24CA8;
 };
