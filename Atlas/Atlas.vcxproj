@@ -149,6 +149,7 @@
     <ClCompile Include="DirectOverlay.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Gui.cpp" />
+    <ClCompile Include="Humanoid.cpp" />
     <ClCompile Include="Instance.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="Player.cpp" />

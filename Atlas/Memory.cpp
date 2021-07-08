@@ -95,7 +95,7 @@ DWORD Memory::GetPointerAddress(DWORD address) {
 	return pointerAddress;
 }
 
-DWORD Memory::GetDMAAddress(DWORD pointer, std::vector<unsigned int> offsets) {
+DWORD Memory::GetDMAAddress(DWORD pointer, std::vector<DWORD> offsets) {
 	DWORD address = pointer;
 	for (unsigned int i = 0; i < offsets.size(); ++i) {
 		address = Read<DWORD>((LPCVOID)address);

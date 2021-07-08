@@ -148,8 +148,8 @@ void Gui::Setup() {
                 ImGui::Checkbox("Aimbot", &Globals::AimbotEnabled);
                 ImGui::Checkbox("View FOV circle", &Globals::ViewFOVCircle);
 
-                ImGui::ListBox("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
-                ImGui::ListBox("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
+                ImGui::Combo("Target", &Globals::Target, targetOptions, IM_ARRAYSIZE(targetOptions));
+                ImGui::Combo("Aimbot bind", &Globals::AimbotBind, aimbotBindOptions, IM_ARRAYSIZE(aimbotBindOptions));
 
                 ImGui::SliderFloat("FOV size", &Globals::FOVSize, 0, 1000);
                 ImGui::SliderFloat("FOV circle thickness", &Globals::FOVCircleThickness, 1, 8);

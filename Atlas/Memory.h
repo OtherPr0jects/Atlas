@@ -18,7 +18,7 @@ public:
 
 	static DWORD GetPointerAddress(DWORD address);
 
-	static DWORD GetDMAAddress(DWORD ptr, std::vector<unsigned int> offsets);
+	static DWORD GetDMAAddress(DWORD ptr, std::vector<DWORD> offsets);
 
 	static std::string ReadStringOfUnknownLength(DWORD address);
 };

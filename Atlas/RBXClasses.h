@@ -17,6 +17,8 @@ class Instance {
 		std::vector<Instance> GetChildren();
 
 		Instance FindFirstChild(std::string name);
+
+		Instance FindFirstChildOfClass(std::string className);
 };
 
 class VisualEngine {
@@ -64,4 +66,11 @@ class BasePart : public Instance {
 		using Instance::Instance;
 
 		Vector3 GetPosition();
+};
+
+class Humanoid : public Instance {
+	public:
+		using Instance::Instance;
+
+		float GetHealth();
 };

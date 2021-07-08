@@ -59,3 +59,15 @@ Instance Instance::FindFirstChild(std::string name) {
 
 	return Instance(0);
 }
+
+Instance Instance::FindFirstChildOfClass(std::string className) {
+	std::vector<Instance> children = GetChildren();
+
+	for (Instance child : children) {
+		if (child.GetClassType() == className) {
+			return Instance(child);
+		}
+	}
+
+	return Instance(0);
+}

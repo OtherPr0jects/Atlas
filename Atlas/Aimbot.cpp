@@ -44,8 +44,8 @@ Vector2 getClosestCharacterScreenPosToCursor() {
         Instance character = player.GetCharacter();
 		if (!character.Address) continue;
 
-        //DWORD humanoid = Memory::FindFirstChild(handle, character, "Humanoid");
-        //if (!humanoid || Memory::GetHealth(handle, humanoid) == 0) continue;
+        Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
+        if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
 
         BasePart targetInstance(0);
         
