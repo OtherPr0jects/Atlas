@@ -22,6 +22,7 @@ int Globals::TracerStartLocation = 0;
 
 bool Globals::AimbotEnabled = true;
 bool Globals::TeamCheck = false;
+bool Globals::HealthCheck = false;
 bool Globals::Crosshair = true;
 bool Globals::ViewFOVCircle = true;
 

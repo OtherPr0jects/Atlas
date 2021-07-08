@@ -162,6 +162,7 @@ void Gui::Setup() {
 
             if (ImGui::BeginTabItem("Misc")) {
                 ImGui::Checkbox("Team check", &Globals::TeamCheck);
+                ImGui::Checkbox("Health check", &Globals::HealthCheck);
                 ImGui::Checkbox("Crosshair", &Globals::Crosshair);
 
                 ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);

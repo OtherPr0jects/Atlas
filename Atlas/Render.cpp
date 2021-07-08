@@ -97,8 +97,10 @@ void drawLoop(int width, int height) {
 		BasePart humanoidRootPart = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
 		if (!humanoidRootPart.Address) continue;
 
-		Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
-		if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+		if (Globals::HealthCheck) {
+			Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
+			if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+		}
 
 		Vector3 humanoidRootPartPosition = humanoidRootPart.GetPosition();
 

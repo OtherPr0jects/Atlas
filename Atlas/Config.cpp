@@ -45,6 +45,7 @@ void Config::Save(char* configName) {
 
     config["Aimbot"] = Globals::AimbotEnabled;
     config["TeamCheck"] = Globals::TeamCheck;
+    config["HealthCheck"] = Globals::HealthCheck;
     config["Crosshair"] = Globals::Crosshair;
     config["ViewFOVCircle"] = Globals::ViewFOVCircle;
 
@@ -90,6 +91,7 @@ void Config::Load(char* configName) {
 
     Globals::AimbotEnabled = config["Aimbot"];
     Globals::TeamCheck = config["TeamCheck"];
+    Globals::HealthCheck = config["HealthCheck"];
     Globals::Crosshair = config["Crosshair"];
     Globals::ViewFOVCircle = config["ViewFOVCircle"];
 

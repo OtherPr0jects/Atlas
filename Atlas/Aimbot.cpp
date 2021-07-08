@@ -44,8 +44,10 @@ Vector2 getClosestCharacterScreenPosToCursor() {
         Instance character = player.GetCharacter();
 		if (!character.Address) continue;
 
-        Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
-        if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+        if (Globals::HealthCheck) {
+            Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
+            if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+        }
 
         BasePart targetInstance(0);
         

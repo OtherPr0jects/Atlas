@@ -24,6 +24,7 @@ struct Globals {
 
 	static bool AimbotEnabled;
 	static bool TeamCheck;
+	static bool HealthCheck;
 	static bool Crosshair;
 	static bool ViewFOVCircle;
 
