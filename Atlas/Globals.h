@@ -4,7 +4,7 @@
 
 struct Globals {
 	static HANDLE Handle;
-	static DWORD BaseAddress;
+	static std::uintptr_t BaseAddress;
 	
 	static HWND RobloxHWND;
 	static HWND OverlayHWND;

@@ -25,14 +25,11 @@ float GetVector2Magnitude(Vector2 vector) {
 }
 
 Vector2 getClosestCharacterScreenPosToCursor() {
-    //DWORD closestCharacter = 0;
+    //std::uintptr_t closestCharacter = 0;
     Vector2 screenPos = { -1, -1 };
     int shortestDistance = 9e9;
 
-    Instance localTeam = 0;
-    if (Globals::TeamCheck) {
-        localTeam = Globals::LocalPlayer.GetTeam();
-    }
+    Instance localTeam = Globals::TeamCheck ? Globals::LocalPlayer.GetTeam() : 0;
 
 	std::vector<Player> players = Globals::PlayersService.GetPlayers();
 	for (Player player : players) {
@@ -45,31 +42,33 @@ Vector2 getClosestCharacterScreenPosToCursor() {
 		if (!character.Address) continue;
 
         if (Globals::HealthCheck) {
-            Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
-            if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+            Humanoid humanoid = static_cast<Humanoid>(character.FindFirstChildOfClass("Humanoid").Address);
+            if (!humanoid.Address || (static_cast<int>(humanoid.GetHealth()) == 0)) continue;
         }
 
         BasePart targetInstance(0);
         
         if (Globals::Target == 0) {
-            targetInstance = BasePart(character.FindFirstChild("Head").Address);
+            targetInstance = static_cast<BasePart>(character.FindFirstChild("Head").Address);
         } else if (Globals::Target == 1) {
-            targetInstance = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
+            targetInstance = static_cast<BasePart>(character.FindFirstChild("HumanoidRootPart").Address);
         } else {
-            targetInstance = ((rand() % 100 + 1) < 50) ? BasePart(character.FindFirstChild("HumanoidRootPart").Address) :
-                BasePart(character.FindFirstChild("Head").Address);
+            targetInstance = ((rand() % 100 + 1) < 50) ? static_cast<BasePart>(character.FindFirstChild("HumanoidRootPart").Address) :
+                static_cast<BasePart>(character.FindFirstChild("Head").Address);
         }
         if (!targetInstance.Address) continue;
         
         Vector2 targetScreenPos = Render::WorldToScreenPoint(targetInstance.GetPosition());
         if (targetScreenPos.X == -1) continue;
 
-        Vector2 cursorPos;
-        POINT temp;
-        GetCursorPos(&temp);
-        cursorPos = { (float)temp.x, (float)temp.y };
+        POINT cursorPosition;
+        GetCursorPos(&cursorPosition);
+        ScreenToClient(Globals::RobloxHWND, &cursorPosition);
 
-        float magnitude = GetVector2Magnitude(SubtractVector2(targetScreenPos, cursorPos));
+        float magnitude = GetVector2Magnitude(SubtractVector2(targetScreenPos, {
+            static_cast<float>(cursorPosition.x),
+            static_cast<float>(cursorPosition.y)
+        }));
         
         if ((magnitude < Globals::FOVSize) && (magnitude < shortestDistance)) {
             //closestCharacter = character;
@@ -84,14 +83,12 @@ Vector2 getClosestCharacterScreenPosToCursor() {
 Vector2 getRelative(Vector2 position) {
     Vector2 newPosition = { 0, 0 };
 
-    Vector2 cursorPosition;
-    POINT temp;
-    GetCursorPos(&temp);
-    ScreenToClient(Globals::RobloxHWND, &temp);
-    cursorPosition = { (float)temp.x, (float)temp.y };
+    POINT cursorPosition;
+    GetCursorPos(&cursorPosition);
+    ScreenToClient(Globals::RobloxHWND, &cursorPosition);
 
-    newPosition.X = (position.X - cursorPosition.X) / Globals::AimbotSmoothness;
-    newPosition.Y = (position.Y - cursorPosition.Y) / Globals::AimbotSmoothness;
+    newPosition.X = (position.X - cursorPosition.x) / Globals::AimbotSmoothness;
+    newPosition.Y = (position.Y - cursorPosition.y) / Globals::AimbotSmoothness;
 
     return newPosition;
 }

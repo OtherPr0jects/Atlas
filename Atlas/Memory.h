@@ -3,11 +3,11 @@
 
 class Memory {
 public:
-	static DWORD GetProcessID(const wchar_t* processName);
+	static std::uintptr_t GetProcessID(const wchar_t* processName);
 
-	static DWORD GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName);
+	static std::uintptr_t GetModuleBaseAddress(std::uintptr_t processID, const wchar_t* moduleName);
 
-	static DWORD Scan(DWORD baseAddress, DWORD VFTableAddress);
+	static std::uintptr_t Scan(std::uintptr_t VFTableAddress);
 
 	template<typename T>
 	static inline T Read(LPCVOID address, SIZE_T size = sizeof(T)) { // Had to put the definition here because you can't define generic methods in the cpp file.
@@ -16,9 +16,9 @@ public:
 		return buffer;
 	};
 
-	static DWORD GetPointerAddress(DWORD address);
+	static std::uintptr_t GetPointerAddress(std::uintptr_t address);
 
-	static DWORD GetDMAAddress(DWORD ptr, std::vector<DWORD> offsets);
+	static std::uintptr_t GetDMAAddress(std::uintptr_t ptr, std::vector<std::uintptr_t> offsets);
 
-	static std::string ReadStringOfUnknownLength(DWORD address);
+	static std::string ReadStringOfUnknownLength(std::uintptr_t address);
 };

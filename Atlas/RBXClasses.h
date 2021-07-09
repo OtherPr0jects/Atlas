@@ -6,9 +6,9 @@
 
 class Instance {
 	public:
-		Instance(DWORD address);
+		Instance(std::uintptr_t address);
 
-		DWORD Address;
+		std::uintptr_t Address;
 
 		std::string GetName();
 
@@ -23,9 +23,9 @@ class Instance {
 
 class VisualEngine {
 	public:
-		VisualEngine(DWORD address);
+		VisualEngine(std::uintptr_t address);
 
-		DWORD Address;
+		std::uintptr_t Address;
 
 		Vector2 GetClientDimensions();
 

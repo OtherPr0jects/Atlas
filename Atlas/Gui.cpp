@@ -52,7 +52,7 @@ void Gui::Setup() {
     Globals::GuiHWND = hwnd;
 
     if (!CreateDeviceD3D(hwnd)) {
-        std::cout << "Couldn't create D3D device." << std::endl;
+        std::cout << "Couldn't create D3D device.\n";
         CleanupDeviceD3D();
         UnregisterClass(wc.lpszClassName, wc.hInstance);
         return;
@@ -135,11 +135,11 @@ void Gui::Setup() {
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
                 ImGui::SliderFloat("Tracer thickness", &Globals::TracerThickness, 1, 6);
 
-                ImGui::ColorEdit4("ESP box color", (float*)&Globals::ESPBoxColor);
-                ImGui::ColorEdit4("Name color", (float*)&Globals::NameColor);
-                ImGui::ColorEdit4("Distance color", (float*)&Globals::DistanceColor);
-                ImGui::ColorEdit4("Head dot color", (float*)&Globals::HeadDotColor);
-                ImGui::ColorEdit4("Tracer color", (float*)&Globals::TracerColor);
+                ImGui::ColorEdit4("ESP box color", reinterpret_cast<float*>(&Globals::ESPBoxColor));
+                ImGui::ColorEdit4("Name color", reinterpret_cast<float*>(&Globals::NameColor));
+                ImGui::ColorEdit4("Distance color", reinterpret_cast<float*>(&Globals::DistanceColor));
+                ImGui::ColorEdit4("Head dot color", reinterpret_cast<float*>(&Globals::HeadDotColor));
+                ImGui::ColorEdit4("Tracer color", reinterpret_cast<float*>(&Globals::TracerColor));
 
                 ImGui::EndTabItem();
             }
@@ -155,7 +155,7 @@ void Gui::Setup() {
                 ImGui::SliderFloat("FOV circle thickness", &Globals::FOVCircleThickness, 1, 8);
                 ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 1, 15);
 
-                ImGui::ColorEdit4("FOV circle color", (float*)&Globals::FOVCircleColor);
+                ImGui::ColorEdit4("FOV circle color", reinterpret_cast<float*>(&Globals::FOVCircleColor));
 
                 ImGui::EndTabItem();
             }
@@ -168,7 +168,7 @@ void Gui::Setup() {
                 ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
                 ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
 
-                ImGui::ColorEdit4("Crosshair color", (float*)&Globals::CrosshairColor);
+                ImGui::ColorEdit4("Crosshair color", reinterpret_cast<float*>(&Globals::CrosshairColor));
 
                 ImGui::EndTabItem();
             }

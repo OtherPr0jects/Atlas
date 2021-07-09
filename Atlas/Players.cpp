@@ -2,7 +2,7 @@
 #include "Memory.h"
 
 Player Players::GetLocalPlayer() {
-	return Player(Memory::GetPointerAddress(this->Address + 0x128));
+	return static_cast<Player>(Memory::GetPointerAddress(this->Address + 0x128));
 }
 
 std::vector<Player> Players::GetPlayers() {
@@ -12,7 +12,7 @@ std::vector<Player> Players::GetPlayers() {
 
 	for (Instance child : children) {
 		if (child.GetClassType() == "Player") {
-			players.push_back(Player(child.Address));
+			players.push_back(static_cast<Player>(child.Address));
 		}
 	}
 

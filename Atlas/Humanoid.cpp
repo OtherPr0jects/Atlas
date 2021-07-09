@@ -2,5 +2,5 @@
 #include "Memory.h"
 
 float Humanoid::GetHealth() {
-	return Memory::Read<float>((LPCVOID)Memory::GetPointerAddress(this->Address + 0x218));
+	return Memory::Read<float>(reinterpret_cast<LPCVOID>(Memory::GetPointerAddress(this->Address + 0x218)));
 }

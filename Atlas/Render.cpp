@@ -6,6 +6,9 @@
 #include "DirectOverlay.h"
 #include "Globals.h"
 
+constexpr Vector3 HEAD_OFFSET = { 0, 2, 0 };
+constexpr Vector3 LEG_OFFSET = { 0, 3, 0 };
+
 Vector3 AddVector3(Vector3 operand1, Vector3 operand2) {
 	return {
 		operand1.X + operand2.X,
@@ -66,17 +69,19 @@ void drawLoop(int width, int height) {
 		);
 	}
 
-	if (!Globals::ESPBoxEnabled && ! Globals::ESPNameEnabled && !Globals::ESPDistanceEnabled && !Globals::ESPHeadDotEnabled && !Globals::ESPTracerEnabled) return;
+	if (!Globals::ESPBoxEnabled &&
+		!Globals::ESPNameEnabled &&
+		!Globals::ESPDistanceEnabled &&
+		!Globals::ESPHeadDotEnabled &&
+		!Globals::ESPTracerEnabled
+	) return;
 
-	Instance localTeam = 0;
-	if (Globals::TeamCheck) {
-		localTeam = Globals::LocalPlayer.GetTeam();
-	}
+	Instance localTeam = Globals::TeamCheck ? Globals::LocalPlayer.GetTeam() : 0;
 
-	/*DWORD localCharacter = Memory::GetCharacter(localPlayerR);
+	/*std::uintptr_t localCharacter = Memory::GetCharacter(localPlayerR);
 	if (!localCharacter) return;
 
-	DWORD localHumanoidRootPart = Memory::FindFirstChild(localCharacter, "HumanoidRootPart");
+	std::uintptr_t localHumanoidRootPart = Memory::FindFirstChild(localCharacter, "HumanoidRootPart");
 	if (!localHumanoidRootPart) return;
 
 	Vector3 localHumanoidRootPartPosition = Memory::GetPosition(localHumanoidRootPart);
@@ -94,12 +99,12 @@ void drawLoop(int width, int height) {
 		Instance character = player.GetCharacter();
 		if (!character.Address) continue;
 
-		BasePart humanoidRootPart = BasePart(character.FindFirstChild("HumanoidRootPart").Address);
+		BasePart humanoidRootPart = static_cast<BasePart>(character.FindFirstChild("HumanoidRootPart").Address);
 		if (!humanoidRootPart.Address) continue;
 
 		if (Globals::HealthCheck) {
-			Humanoid humanoid = Humanoid(character.FindFirstChildOfClass("Humanoid").Address);
-			if (!humanoid.Address || ((int)humanoid.GetHealth() == 0)) continue;
+			Humanoid humanoid = static_cast<Humanoid>(character.FindFirstChildOfClass("Humanoid").Address);
+			if (!humanoid.Address || (static_cast<int>(humanoid.GetHealth()) == 0)) continue;
 		}
 
 		Vector3 humanoidRootPartPosition = humanoidRootPart.GetPosition();
@@ -107,10 +112,10 @@ void drawLoop(int width, int height) {
 		//Vector2 humanoidRootPartScreenPos = Render::WorldToScreenPoint(humanoidRootPartPosition);
 		//if (humanoidRootPartScreenPos.X == -1) continue;
 
-		Vector2 headScreenPos = Render::WorldToScreenPoint(AddVector3(humanoidRootPartPosition, { 0, 2, 0 }));
+		Vector2 headScreenPos = Render::WorldToScreenPoint(AddVector3(humanoidRootPartPosition, HEAD_OFFSET));
 		if (headScreenPos.X == -1) continue;
 
-		Vector2 legScreenPos = Render::WorldToScreenPoint(SubtractVector3(humanoidRootPartPosition, { 0, 3, 0 }));
+		Vector2 legScreenPos = Render::WorldToScreenPoint(SubtractVector3(humanoidRootPartPosition, LEG_OFFSET));
 		if (legScreenPos.X == -1) continue;
 
 		//float distanceFromLocalHumanoidRootPartPosition = GetVector3Magnitude(SubtractVector3(humanoidRootPartPosition, localHumanoidRootPartPosition));
@@ -172,14 +177,14 @@ void drawLoop(int width, int height) {
 			std::copy(std::begin(Globals::DistanceColor), std::end(Globals::DistanceColor), std::begin(distanceColor));
 
 			DrawString(
-				"[" + std::to_string((int)distanceFromCamera) + "s]",
+				"[" + std::to_string(static_cast<int>(distanceFromCamera)) + "s]",
 				fontSize,
 				headScreenPos.X, legScreenPos.Y + 5,
 				distanceColor[0], distanceColor[1], distanceColor[2], distanceColor[3]
 			);
 		}
 		if (Globals::ESPHeadDotEnabled) {
-			BasePart head = BasePart(character.FindFirstChild("Head").Address);
+			BasePart head = static_cast<BasePart>(character.FindFirstChild("Head").Address);
 			if (!head.Address) continue;
 
 			Vector3 headPosition = head.GetPosition();

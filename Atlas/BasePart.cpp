@@ -2,10 +2,6 @@
 #include "Memory.h"
 
 Vector3 BasePart::GetPosition() {
-	Vector3 position = { 0, 0, 0 };
-
-	DWORD primitive = Memory::Read<DWORD>((LPCVOID)(this->Address + 0xC0));
-	position = Memory::Read<Vector3>((LPCVOID)(primitive + 0x11C));
-
-	return position;
+	std::uintptr_t primitive = Memory::Read<std::uintptr_t>(reinterpret_cast<LPCVOID>(this->Address + 0xC0));
+	return Memory::Read<Vector3>(reinterpret_cast<LPCVOID>(primitive + 0x11C));
 }

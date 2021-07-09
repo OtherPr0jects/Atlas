@@ -3,12 +3,12 @@
 #include <TlHelp32.h>
 #include "Memory.h"
 
-DWORD Memory::GetProcessID(const wchar_t* processName) {
-	DWORD processID = 0;
+std::uintptr_t Memory::GetProcessID(const wchar_t* processName) {
+	std::uintptr_t processID = 0;
 
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (snapshot == INVALID_HANDLE_VALUE) {
-		std::cout << "Couldn't get running processes." << std::endl;
+		std::cout << "Couldn't get running processes.\n";
 		return 0;
 	}
 
@@ -17,7 +17,7 @@ DWORD Memory::GetProcessID(const wchar_t* processName) {
 
 	if (!Process32First(snapshot, &processEntry)) {
 		CloseHandle(snapshot);
-		std::cout << "Couldn't get info of processes." << std::endl;
+		std::cout << "Couldn't get info of processes.\n";
 		return 0;
 	}
 
@@ -33,12 +33,12 @@ DWORD Memory::GetProcessID(const wchar_t* processName) {
 	return processID;
 }
 
-DWORD Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName) {
-	DWORD moduleBaseAddress = 0;
+std::uintptr_t Memory::GetModuleBaseAddress(std::uintptr_t processID, const wchar_t* moduleName) {
+	std::uintptr_t moduleBaseAddress = 0;
 
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, processID);
 	if (snapshot == INVALID_HANDLE_VALUE) {
-		std::cout << "Couldn't get running processes." << std::endl;
+		std::cout << "Couldn't get running processes.\n";
 		return 0;
 	}
 
@@ -47,13 +47,13 @@ DWORD Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName) {
 
 	if (!Module32First(snapshot, &moduleEntry)) {
 		CloseHandle(snapshot);
-		std::cout << "Couldn't get info of modules." << std::endl;
+		std::cout << "Couldn't get info of modules.\n";
 		return 0;
 	}
 
 	do {
 		if (!_wcsicmp(moduleEntry.szModule, moduleName)) {
-			moduleBaseAddress = (DWORD)moduleEntry.modBaseAddr;
+			moduleBaseAddress = reinterpret_cast<std::uintptr_t>(moduleEntry.modBaseAddr);
 			break;
 		}
 	} while (Module32Next(snapshot, &moduleEntry));
@@ -63,24 +63,24 @@ DWORD Memory::GetModuleBaseAddress(DWORD processID, const wchar_t* moduleName) {
 	return moduleBaseAddress;
 }
 
-DWORD Memory::Scan(DWORD baseAddress, DWORD VFTableAddress) {
+std::uintptr_t Memory::Scan(std::uintptr_t VFTableAddress) {
 	SYSTEM_INFO systemInfo;
-	DWORD pageSize;
-	DWORD pageSize4ByteSplit;
+	std::uintptr_t pageSize;
+	std::uintptr_t pageSize4ByteSplit;
 	MEMORY_BASIC_INFORMATION memoryInfo;
 	GetSystemInfo(&systemInfo);
 	pageSize = systemInfo.dwPageSize;
 	pageSize4ByteSplit = pageSize / 4;
-	DWORD* buffer = new DWORD[pageSize];
+	std::uintptr_t* buffer = new std::uintptr_t[pageSize];
 
-	for (DWORD addr = baseAddress; addr < 0x7FFFFFFF; addr += pageSize) {
-		VirtualQueryEx(Globals::Handle, (LPCVOID)addr, &memoryInfo, pageSize);
+	for (std::uintptr_t addr = Globals::BaseAddress; addr < 0x7FFFFFFF; addr += pageSize) {
+		VirtualQueryEx(Globals::Handle, reinterpret_cast<LPCVOID>(addr), &memoryInfo, pageSize);
 		if (memoryInfo.Protect == PAGE_READWRITE) {
-			ReadProcessMemory(Globals::Handle, (LPCVOID)addr, buffer, pageSize, 0);
-			for (DWORD i = 0; i <= pageSize4ByteSplit; i++) {
+			ReadProcessMemory(Globals::Handle, reinterpret_cast<LPCVOID>(addr), buffer, pageSize, 0);
+			for (std::uintptr_t i = 0; i <= pageSize4ByteSplit; i++) {
 				if (buffer[i] == VFTableAddress) {
 					delete[] buffer;
-					return (DWORD)(addr + (i * 4));
+					return static_cast<std::uintptr_t>(addr + (i * 4));
 				}
 			}
 		}
@@ -90,28 +90,27 @@ DWORD Memory::Scan(DWORD baseAddress, DWORD VFTableAddress) {
 	return 0;
 }
 
-DWORD Memory::GetPointerAddress(DWORD address) {
-	DWORD pointerAddress = GetDMAAddress(address, { 0x0 });
-	return pointerAddress;
+std::uintptr_t Memory::GetPointerAddress(std::uintptr_t address) {
+	return GetDMAAddress(address, { 0x0 });
 }
 
-DWORD Memory::GetDMAAddress(DWORD pointer, std::vector<DWORD> offsets) {
-	DWORD address = pointer;
+std::uintptr_t Memory::GetDMAAddress(std::uintptr_t pointer, std::vector<std::uintptr_t> offsets) {
+	std::uintptr_t address = pointer;
 	for (unsigned int i = 0; i < offsets.size(); ++i) {
-		address = Read<DWORD>((LPCVOID)address);
+		address = Read<std::uintptr_t>(reinterpret_cast<LPCVOID>(address));
 		address += offsets[i];
 	}
 	return address;
 }
 
-std::string Memory::ReadStringOfUnknownLength(DWORD address) {
+std::string Memory::ReadStringOfUnknownLength(std::uintptr_t address) {
 	std::string string;
 	char character = 0;
 	int charSize = sizeof(character);
 	int offset = 0;
 
 	while (true) {
-		character = Read<char>((LPCVOID)(address + offset));
+		character = Read<char>(reinterpret_cast<LPCVOID>(address + offset));
 		if (character == 0) break;
 		offset += charSize;
 		string.push_back(character);

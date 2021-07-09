@@ -2,7 +2,7 @@
 #include "Globals.h"
 
 HANDLE Globals::Handle = NULL;
-DWORD Globals::BaseAddress = NULL;
+std::uintptr_t Globals::BaseAddress = NULL;
 
 HWND Globals::RobloxHWND = NULL;
 HWND Globals::OverlayHWND = NULL;

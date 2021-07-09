@@ -68,15 +68,25 @@ void Config::Save(char* configName) {
     config["DistanceColor"] = Globals::DistanceColor;
     config["HeadDotColor"] = Globals::HeadDotColor;
 
-    saveFile(getExecutablePath() + "\\Configs\\" + std::string(configName) + ".txt", config.dump());
-    MessageBoxA(0, (LPCSTR)("Saved config '" + std::string(configName) + "'").c_str(), "Saved Config", MB_OK);
+    saveFile(getExecutablePath() + "\\Configs\\" + static_cast<std::string>(configName) + ".txt", config.dump());
+    MessageBoxA(
+        0,
+        static_cast<LPCSTR>(("Saved config '" + static_cast<std::string>(configName) + "'").c_str()),
+        "Saved Config",
+        MB_OK
+    );
 }
 
 void Config::Load(char* configName) {
     std::string configJson = "";
-    loadFile(getExecutablePath() + "\\Configs\\" + std::string(configName) + ".txt", configJson);
+    loadFile(getExecutablePath() + "\\Configs\\" + static_cast<std::string>(configName) + ".txt", configJson);
     if (!configJson[0]) {
-        MessageBoxA(0, (LPCSTR)("Failed to load config '" + std::string(configName) + "'").c_str(), "Failed to Load Config", MB_OK);
+        MessageBoxA(
+            0,
+            static_cast<LPCSTR>(("Failed to load config '" + static_cast<std::string>(configName) + "'").c_str()),
+            "Failed to Load Config",
+            MB_OK
+        );
         return;
     }
     
@@ -113,5 +123,10 @@ void Config::Load(char* configName) {
     config["DistanceColor"].get_to(Globals::DistanceColor);
     config["HeadDotColor"].get_to(Globals::HeadDotColor);
 
-    MessageBoxA(0, (LPCSTR)("Loaded config '" + std::string(configName) + "'").c_str(), "Loaded Config", MB_OK);
+    MessageBoxA(
+        0,
+        static_cast<LPCSTR>(("Loaded config '" + static_cast<std::string>(configName) + "'").c_str()),
+        "Loaded Config",
+        MB_OK
+    );
 }
