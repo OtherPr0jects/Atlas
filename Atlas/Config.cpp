@@ -7,7 +7,7 @@
 using json = nlohmann::json;
 
 void replace(std::string& str, const std::string& from, const std::string& to) {
-    size_t startPosition = str.find(from);
+    std::size_t startPosition = str.find(from);
     if (startPosition == std::string::npos) return;
     str.replace(startPosition, from.length(), to);
 }
@@ -31,6 +31,12 @@ void loadFile(const std::string& filePath, std::string& data) {
     inFile.open(filePath);
     inFile >> data;
     inFile.close();
+}
+
+template<typename T>
+void loadConfigOption(T& globalSetting, const json& configObject, const std::string& configSetting) {
+    if (!configObject.contains(configSetting)) return;
+    globalSetting = configObject[configSetting];
 }
 
 void Config::Save(char* configName) {
@@ -92,36 +98,36 @@ void Config::Load(char* configName) {
     
     json config = json::parse(configJson);
 
-    Globals::ESPBoxEnabled = config["ESPBoxes"];
-    Globals::ESPTracerEnabled = config["ESPTracers"];
-    Globals::ESPNameEnabled = config["ESPNames"];
-    Globals::ESPDistanceEnabled = config["ESPDistances"];
+    loadConfigOption<bool>(Globals::ESPBoxEnabled, config, "ESPBoxes");
+    loadConfigOption<bool>(Globals::ESPTracerEnabled, config, "ESPTracers");
+    loadConfigOption<bool>(Globals::ESPNameEnabled, config, "ESPNames");
+    loadConfigOption<bool>(Globals::ESPDistanceEnabled, config, "ESPDistances");
 
-    Globals::TracerStartLocation = config["TracerStartLocation"];
+    loadConfigOption<int>(Globals::TracerStartLocation, config, "TracerStartLocation");
 
-    Globals::AimbotEnabled = config["Aimbot"];
-    Globals::TeamCheck = config["TeamCheck"];
-    Globals::HealthCheck = config["HealthCheck"];
-    Globals::Crosshair = config["Crosshair"];
-    Globals::ViewFOVCircle = config["ViewFOVCircle"];
+    loadConfigOption<bool>(Globals::AimbotEnabled, config, "Aimbot");
+    loadConfigOption<bool>(Globals::TeamCheck, config, "TeamCheck");
+    loadConfigOption<bool>(Globals::HealthCheck, config, "HealthCheck");
+    loadConfigOption<bool>(Globals::Crosshair, config, "Crosshair");
+    loadConfigOption<bool>(Globals::ViewFOVCircle, config, "ViewFOVCircle");
 
-    Globals::Target = config["Target"];
-    Globals::AimbotBind = config["AimbotBind"];
+    loadConfigOption<int>(Globals::Target, config, "Target");
+    loadConfigOption<int>(Globals::AimbotBind, config, "AimbotBind");
 
-    Globals::CrosshairScale = config["CrosshairScale"];
-    Globals::CrosshairThickness = config["CrosshairThickness"];
-    Globals::FOVSize = config["FOVSize"];
-    Globals::FOVCircleThickness = config["FOVCircleThickness"];
-    Globals::AimbotSmoothness = config["AimbotSmoothness"];
-    Globals::ESPBoxThickness = config["ESPBoxThickness"];
-    Globals::TracerThickness = config["ESPTracerThickness"];
+    loadConfigOption<float>(Globals::CrosshairScale, config, "CrosshairScale");
+    loadConfigOption<float>(Globals::CrosshairThickness, config, "CrosshairThickness");
+    loadConfigOption<float>(Globals::FOVSize, config, "FOVSize");
+    loadConfigOption<float>(Globals::FOVCircleThickness, config, "FOVCircleThickness");
+    loadConfigOption<float>(Globals::AimbotSmoothness, config, "AimbotSmoothness");
+    loadConfigOption<float>(Globals::ESPBoxThickness, config, "ESPBoxThickness");
+    loadConfigOption<float>(Globals::TracerThickness, config, "ESPTracerThickness");
 
-    config["CrosshairColor"].get_to(Globals::CrosshairColor);
-    config["ESPBoxColor"].get_to(Globals::ESPBoxColor);
-    config["TracerColor"].get_to(Globals::TracerColor);
-    config["NameColor"].get_to(Globals::NameColor);
-    config["DistanceColor"].get_to(Globals::DistanceColor);
-    config["HeadDotColor"].get_to(Globals::HeadDotColor);
+    if (config.contains("CrosshairColor")) config["CrosshairColor"].get_to(Globals::CrosshairColor);
+    if (config.contains("ESPBoxColor")) config["ESPBoxColor"].get_to(Globals::ESPBoxColor);
+    if (config.contains("TracerColor")) config["TracerColor"].get_to(Globals::TracerColor);
+    if (config.contains("NameColor")) config["NameColor"].get_to(Globals::NameColor);
+    if (config.contains("DistanceColor")) config["DistanceColor"].get_to(Globals::DistanceColor);
+    if (config.contains("HeadDotColor")) config["HeadDotColor"].get_to(Globals::HeadDotColor);
 
     MessageBoxA(
         0,

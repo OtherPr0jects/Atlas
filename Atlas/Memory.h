@@ -10,7 +10,7 @@ public:
 	static std::uintptr_t Scan(std::uintptr_t VFTableAddress);
 
 	template<typename T>
-	static inline T Read(LPCVOID address, SIZE_T size = sizeof(T)) { // Had to put the definition here because you can't define generic methods in the cpp file.
+	static inline T Read(LPCVOID address, std::size_t size = sizeof(T)) { // Had to put the definition here because you can't define generic methods in the cpp file.
 		T buffer;
 		ReadProcessMemory(Globals::Handle, address, &buffer, size, 0);
 		return buffer;
