@@ -37,6 +37,8 @@ float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
 float Globals::TracerThickness = 2;
 
+float Globals::RainbowSpeed = 1;
+
 // Format is RGBA.
 float Globals::CrosshairColor[4] = { 1, 0, 0, 1 };
 float Globals::FOVCircleColor[4] = { 1, 0, 0, 1 };

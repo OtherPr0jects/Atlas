@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <thread>
+#include <map>
 #include "Gui.h"
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
@@ -12,6 +13,10 @@
 #include "Aimbot.h"
 #include "Config.h"
 #pragma comment(lib, "d3d9.lib")
+
+constexpr int MAX_RAINBOW_ITERATION = 230;
+
+float rainbowIteration = 1;
 
 static LPDIRECT3D9 g_pD3D;
 static LPDIRECT3DDEVICE9 g_pd3dDevice;
@@ -43,7 +48,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 370,
+        500, 480,
         NULL,
         NULL,
         wc.hInstance,
@@ -69,6 +74,18 @@ void Gui::Setup() {
 
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX9_Init(g_pd3dDevice);
+
+    std::map<const char*, std::pair<bool, float*>> rainbowColors;
+
+    auto colorEdit4WithRainbow = [&](const char* label, float* col, ImGuiColorEditFlags flags = 0) {
+        if (rainbowColors[label].first) {
+            rainbowColors[label].second = col;
+        } else {
+            rainbowColors[label].second = NULL;
+            ImGui::ColorEdit4(label, col);
+        }
+        ImGui::Checkbox(("Rainbow " + static_cast<std::string>(label)).c_str(), &rainbowColors[label].first);
+    };
 
     const char* targetOptions[] = {
         "Head",
@@ -100,6 +117,8 @@ void Gui::Setup() {
         if (done) {
             break;
         }
+
+        rainbowIteration = (rainbowIteration >= MAX_RAINBOW_ITERATION) ? 1 : (rainbowIteration + Globals::RainbowSpeed);
 
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
@@ -135,11 +154,11 @@ void Gui::Setup() {
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
                 ImGui::SliderFloat("Tracer thickness", &Globals::TracerThickness, 1, 6);
 
-                ImGui::ColorEdit4("ESP box color", reinterpret_cast<float*>(&Globals::ESPBoxColor));
-                ImGui::ColorEdit4("Name color", reinterpret_cast<float*>(&Globals::NameColor));
-                ImGui::ColorEdit4("Distance color", reinterpret_cast<float*>(&Globals::DistanceColor));
-                ImGui::ColorEdit4("Head dot color", reinterpret_cast<float*>(&Globals::HeadDotColor));
-                ImGui::ColorEdit4("Tracer color", reinterpret_cast<float*>(&Globals::TracerColor));
+                colorEdit4WithRainbow("ESP box color", reinterpret_cast<float*>(&Globals::ESPBoxColor));
+                colorEdit4WithRainbow("Tracer color", reinterpret_cast<float*>(&Globals::TracerColor));
+                colorEdit4WithRainbow("Name color", reinterpret_cast<float*>(&Globals::NameColor));
+                colorEdit4WithRainbow("Distance color", reinterpret_cast<float*>(&Globals::DistanceColor));
+                colorEdit4WithRainbow("Head dot color", reinterpret_cast<float*>(&Globals::HeadDotColor));
 
                 ImGui::EndTabItem();
             }
@@ -155,7 +174,7 @@ void Gui::Setup() {
                 ImGui::SliderFloat("FOV circle thickness", &Globals::FOVCircleThickness, 1, 8);
                 ImGui::SliderFloat("Aimbot smoothness", &Globals::AimbotSmoothness, 1, 15);
 
-                ImGui::ColorEdit4("FOV circle color", reinterpret_cast<float*>(&Globals::FOVCircleColor));
+                colorEdit4WithRainbow("FOV circle color", reinterpret_cast<float*>(&Globals::FOVCircleColor));
 
                 ImGui::EndTabItem();
             }
@@ -167,8 +186,9 @@ void Gui::Setup() {
 
                 ImGui::SliderFloat("Crosshair scale", &Globals::CrosshairScale, 0.1, 5);
                 ImGui::SliderFloat("Crosshair thickness", &Globals::CrosshairThickness, 1, 6);
+                ImGui::SliderFloat("Rainbow speed", &Globals::RainbowSpeed, 0.1, 8);
 
-                ImGui::ColorEdit4("Crosshair color", reinterpret_cast<float*>(&Globals::CrosshairColor));
+                colorEdit4WithRainbow("Crosshair color", reinterpret_cast<float*>(&Globals::CrosshairColor));
 
                 ImGui::EndTabItem();
             }
@@ -191,6 +211,13 @@ void Gui::Setup() {
         }
 
         ImGui::EndFrame();
+
+        for (const auto& col : rainbowColors) {
+            if (col.second.second) {
+                Utility::HSVToRGB(rainbowIteration / MAX_RAINBOW_ITERATION, 1, 1, col.second.second);
+            }
+        }
+
         g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
         g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);

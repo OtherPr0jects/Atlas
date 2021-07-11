@@ -1,7 +1,7 @@
 #include "RBXClasses.h"
 #include "Memory.h"
 
-__int64 Player::GetUserID() {
+std::int64_t Player::GetUserID() {
 	return Memory::Read<__int64>(reinterpret_cast<LPCVOID>(this->Address + 0xF8));
 }
 

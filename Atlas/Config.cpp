@@ -66,6 +66,8 @@ void Config::Save(char* configName) {
     config["ESPBoxThickness"] = Globals::ESPBoxThickness;
     config["ESPTracerThickness"] = Globals::TracerThickness;
 
+    config["RainbowSpeed"] = Globals::RainbowSpeed;
+
     config["CrosshairColor"] = Globals::CrosshairColor;
     config["FOVCircleColor"] = Globals::FOVCircleColor;
     config["ESPBoxColor"] = Globals::ESPBoxColor;
@@ -121,6 +123,8 @@ void Config::Load(char* configName) {
     loadConfigOption<float>(Globals::AimbotSmoothness, config, "AimbotSmoothness");
     loadConfigOption<float>(Globals::ESPBoxThickness, config, "ESPBoxThickness");
     loadConfigOption<float>(Globals::TracerThickness, config, "ESPTracerThickness");
+
+    loadConfigOption<float>(Globals::RainbowSpeed, config, "RainbowSpeed");
 
     if (config.contains("CrosshairColor")) config["CrosshairColor"].get_to(Globals::CrosshairColor);
     if (config.contains("ESPBoxColor")) config["ESPBoxColor"].get_to(Globals::ESPBoxColor);

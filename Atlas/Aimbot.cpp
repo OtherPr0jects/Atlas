@@ -107,7 +107,7 @@ void Aimbot::Setup() {
 
             INPUT input;
             //ZeroMemory(&input, sizeof(INPUT));
-            input.mi.time = 0; // Alternative to ZeroMemory (stops screensaver from mode)
+            input.mi.time = 0; // Alternative to ZeroMemory (stops screensaver from activating)
             input.type = INPUT_MOUSE;
             input.mi.mouseData = 0;
             input.mi.dx = relative.X;

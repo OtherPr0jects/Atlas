@@ -136,7 +136,7 @@ void drawLoop(int width, int height) {
 				headScreenPos.X - (width / 2), headScreenPos.Y,
 				width, height,
 				espBoxThickness + 2,
-				0, 0, 0, 1,
+				0, 0, 0, espBoxColor[3],
 				false
 			);
 
