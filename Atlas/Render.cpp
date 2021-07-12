@@ -38,8 +38,7 @@ void drawLoop(int width, int height) {
 	Vector2 screenCenter = { clientDimensions.X / 2, clientDimensions.Y / 2 };
 
 	if (Globals::ViewFOVCircle) {
-		float fovCircleColor[4];
-		std::copy(std::begin(Globals::FOVCircleColor), std::end(Globals::FOVCircleColor), std::begin(fovCircleColor));
+		float* fovCircleColor = Globals::FOVCircleColor;
 
 		DrawCircle(
 			cursorPosition.x, cursorPosition.y,
@@ -51,8 +50,7 @@ void drawLoop(int width, int height) {
 	}
 
 	if (Globals::Crosshair) {
-		float crosshairColor[4];
-		std::copy(std::begin(Globals::CrosshairColor), std::end(Globals::CrosshairColor), std::begin(crosshairColor));
+		float* crosshairColor = Globals::CrosshairColor;
 
 		DrawLine(
 			screenCenter.X - (20 * Globals::CrosshairScale), screenCenter.Y,
@@ -124,8 +122,7 @@ void drawLoop(int width, int height) {
 		float fontSize = 13;
 
 		if (Globals::ESPBoxEnabled) {
-			float espBoxColor[4];
-			std::copy(std::begin(Globals::ESPBoxColor), std::end(Globals::ESPBoxColor), std::begin(espBoxColor));
+			float* espBoxColor = Globals::ESPBoxColor;
 
 			float height = legScreenPos.Y - headScreenPos.Y;
 			float width = height / 2;
@@ -151,8 +148,7 @@ void drawLoop(int width, int height) {
 		if (Globals::ESPTracerEnabled) {
 			bool fromBottomCenter = (Globals::TracerStartLocation == 0);
 
-			float tracerColor[4];
-			std::copy(std::begin(Globals::TracerColor), std::end(Globals::TracerColor), std::begin(tracerColor));
+			float* tracerColor = Globals::TracerColor;
 
 			DrawLine(
 				fromBottomCenter ? screenCenter.X : cursorPosition.x, fromBottomCenter ? clientDimensions.Y : cursorPosition.y,
@@ -162,8 +158,7 @@ void drawLoop(int width, int height) {
 			);
 		}
 		if (Globals::ESPNameEnabled) {
-			float nameColor[4];
-			std::copy(std::begin(Globals::NameColor), std::end(Globals::NameColor), std::begin(nameColor));
+			float *nameColor = Globals::NameColor;
 
 			DrawString(
 				player.GetName(),
@@ -173,8 +168,7 @@ void drawLoop(int width, int height) {
 			);
 		}
 		if (Globals::ESPDistanceEnabled) {
-			float distanceColor[4];
-			std::copy(std::begin(Globals::DistanceColor), std::end(Globals::DistanceColor), std::begin(distanceColor));
+			float* distanceColor = Globals::DistanceColor;
 
 			DrawString(
 				"[" + std::to_string(static_cast<int>(distanceFromCamera)) + "s]",
@@ -192,8 +186,7 @@ void drawLoop(int width, int height) {
 			Vector2 realHeadScreenPos = Render::WorldToScreenPoint(headPosition);
 			if (realHeadScreenPos.X == -1) continue;
 
-			float headDotColor[4];
-			std::copy(std::begin(Globals::HeadDotColor), std::end(Globals::HeadDotColor), std::begin(headDotColor));
+			float* headDotColor = Globals::HeadDotColor;
 
 			DrawCircle(
 				realHeadScreenPos.X, realHeadScreenPos.Y,
