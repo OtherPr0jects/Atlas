@@ -9,10 +9,11 @@ std::vector<Player> Players::GetPlayers() {
 	std::vector<Player> players = {};
 
 	std::vector<Instance> children = this->GetChildren();
+	players.reserve(children.size());
 
 	for (Instance child : children) {
 		if (child.GetClassType() == "Player") {
-			players.push_back(static_cast<Player>(child.Address));
+			players.emplace_back(child.Address);
 		}
 	}
 

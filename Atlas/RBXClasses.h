@@ -6,7 +6,7 @@
 
 class Instance {
 	public:
-		Instance(std::uintptr_t address);
+		Instance(std::uintptr_t address) : Address(address) {};
 
 		std::uintptr_t Address;
 
@@ -23,7 +23,7 @@ class Instance {
 
 class VisualEngine {
 	public:
-		VisualEngine(std::uintptr_t address);
+		VisualEngine(std::uintptr_t address) : Address(address) {};
 
 		std::uintptr_t Address;
 

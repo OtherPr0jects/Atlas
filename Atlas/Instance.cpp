@@ -2,10 +2,6 @@
 #include "RBXClasses.h"
 #include "Memory.h"
 
-Instance::Instance(std::uintptr_t address) {
-	this->Address = address;
-}
-
 std::string Instance::GetClassType() {
 	std::uintptr_t classDescriptor = Memory::GetPointerAddress(this->Address + 0xC);
 	return Memory::ReadStringOfUnknownLength(Memory::GetPointerAddress(classDescriptor + 0x4));
@@ -34,10 +30,11 @@ std::vector<Instance> Instance::GetChildren() {
 		std::cout << "Couldn't get number of children of " << this->GetName() << ".\n";
 		return children;
 	}
+	children.reserve(v25);
 
 	std::uintptr_t v6 = Memory::GetPointerAddress(v4);
 	for (int i = 0; i < v25; i++) {
-		children.push_back(static_cast<Instance>(Memory::GetPointerAddress(v6)));
+		children.emplace_back(Memory::GetPointerAddress(v6));
 		v6 += 8;
 	}
 

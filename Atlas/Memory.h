@@ -18,7 +18,7 @@ public:
 
 	static std::uintptr_t GetPointerAddress(std::uintptr_t address);
 
-	static std::uintptr_t GetDMAAddress(std::uintptr_t ptr, std::vector<std::uintptr_t> offsets);
+	static std::uintptr_t GetDMAAddress(std::uintptr_t ptr, const std::vector<std::uintptr_t>& offsets);
 
 	static std::string ReadStringOfUnknownLength(std::uintptr_t address);
 };

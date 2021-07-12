@@ -94,7 +94,7 @@ std::uintptr_t Memory::GetPointerAddress(std::uintptr_t address) {
 	return GetDMAAddress(address, { 0x0 });
 }
 
-std::uintptr_t Memory::GetDMAAddress(std::uintptr_t pointer, std::vector<std::uintptr_t> offsets) {
+std::uintptr_t Memory::GetDMAAddress(std::uintptr_t pointer, const std::vector<std::uintptr_t>& offsets) {
 	std::uintptr_t address = pointer;
 	for (unsigned int i = 0; i < offsets.size(); ++i) {
 		address = Read<std::uintptr_t>(reinterpret_cast<LPCVOID>(address));
@@ -108,6 +108,8 @@ std::string Memory::ReadStringOfUnknownLength(std::uintptr_t address) {
 	char character = 0;
 	int charSize = sizeof(character);
 	int offset = 0;
+
+	string.reserve(100);
 
 	while (true) {
 		character = Read<char>(reinterpret_cast<LPCVOID>(address + offset));

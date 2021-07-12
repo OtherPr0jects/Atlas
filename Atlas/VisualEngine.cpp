@@ -1,10 +1,6 @@
 #include "RBXClasses.h"
 #include "Memory.h"
 
-VisualEngine::VisualEngine(std::uintptr_t address) {
-	this->Address = address;
-}
-
 Vector2 VisualEngine::GetClientDimensions() {
 	Vector2 clientDimensions = { 0, 0 };
 
