@@ -17,6 +17,7 @@ bool Globals::ESPTracerEnabled = true;
 bool Globals::ESPNameEnabled = true;
 bool Globals::ESPDistanceEnabled = true;
 bool Globals::ESPHeadDotEnabled = true;
+bool Globals::HealthBarEnabled = true;
 
 int Globals::TracerStartLocation = 0;
 
@@ -36,6 +37,7 @@ float Globals::FOVCircleThickness = 3;
 float Globals::AimbotSmoothness = 8;
 float Globals::ESPBoxThickness = 2;
 float Globals::TracerThickness = 2;
+float Globals::HealthBarThickness = 2;
 
 float Globals::RainbowSpeed = 1;
 

@@ -46,7 +46,7 @@ std::vector<Instance> Instance::GetChildren() {
 }
 
 Instance Instance::FindFirstChild(std::string name) {
-	std::vector<Instance> children = GetChildren();
+	std::vector<Instance> children = this->GetChildren();
 
 	for (Instance child : children) {
 		if (child.GetName() == name) {
@@ -58,7 +58,7 @@ Instance Instance::FindFirstChild(std::string name) {
 }
 
 Instance Instance::FindFirstChildOfClass(std::string className) {
-	std::vector<Instance> children = GetChildren();
+	std::vector<Instance> children = this->GetChildren();
 
 	for (Instance child : children) {
 		if (child.GetClassType() == className) {

@@ -28,7 +28,7 @@ int main() {
     HWND hwnd = FindWindowA(0, "Roblox");
     Globals::RobloxHWND = hwnd;
 
-    __int64 userID = 0;
+    std::int64_t userID = 0;
     std::string teamName;
 
     std::uintptr_t baseAddress = Memory::GetModuleBaseAddress(processID, L"RobloxPlayerBeta.exe");

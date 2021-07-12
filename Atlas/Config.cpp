@@ -46,6 +46,8 @@ void Config::Save(char* configName) {
     config["ESPTracers"] = Globals::ESPTracerEnabled;
     config["ESPNames"] = Globals::ESPNameEnabled;
     config["ESPDistances"] = Globals::ESPDistanceEnabled;
+    config["ESPHeadDots"] = Globals::ESPHeadDotEnabled;
+    config["HealthBarEnabled"] = Globals::HealthBarEnabled;
 
     config["TracerStartLocation"] = Globals::TracerStartLocation;
 
@@ -65,6 +67,7 @@ void Config::Save(char* configName) {
     config["AimbotSmoothness"] = Globals::AimbotSmoothness;
     config["ESPBoxThickness"] = Globals::ESPBoxThickness;
     config["ESPTracerThickness"] = Globals::TracerThickness;
+    config["HealthBarThickness"] = Globals::HealthBarThickness;
 
     config["RainbowSpeed"] = Globals::RainbowSpeed;
 
@@ -104,6 +107,8 @@ void Config::Load(char* configName) {
     loadConfigOption<bool>(Globals::ESPTracerEnabled, config, "ESPTracers");
     loadConfigOption<bool>(Globals::ESPNameEnabled, config, "ESPNames");
     loadConfigOption<bool>(Globals::ESPDistanceEnabled, config, "ESPDistances");
+    loadConfigOption<bool>(Globals::ESPHeadDotEnabled, config, "ESPHeadDots");
+    loadConfigOption<bool>(Globals::HealthBarEnabled, config, "HealthBarEnabled");
 
     loadConfigOption<int>(Globals::TracerStartLocation, config, "TracerStartLocation");
 
@@ -123,6 +128,7 @@ void Config::Load(char* configName) {
     loadConfigOption<float>(Globals::AimbotSmoothness, config, "AimbotSmoothness");
     loadConfigOption<float>(Globals::ESPBoxThickness, config, "ESPBoxThickness");
     loadConfigOption<float>(Globals::TracerThickness, config, "ESPTracerThickness");
+    loadConfigOption<float>(Globals::HealthBarThickness, config, "HealthBarThickness");
 
     loadConfigOption<float>(Globals::RainbowSpeed, config, "RainbowSpeed");
 

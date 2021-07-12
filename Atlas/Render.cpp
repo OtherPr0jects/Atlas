@@ -100,10 +100,10 @@ void drawLoop(int width, int height) {
 		BasePart humanoidRootPart = static_cast<BasePart>(character.FindFirstChild("HumanoidRootPart").Address);
 		if (!humanoidRootPart.Address) continue;
 
-		if (Globals::HealthCheck) {
-			Humanoid humanoid = static_cast<Humanoid>(character.FindFirstChildOfClass("Humanoid").Address);
-			if (!humanoid.Address || (static_cast<int>(humanoid.GetHealth()) == 0)) continue;
-		}
+		Humanoid humanoid = static_cast<Humanoid>(character.FindFirstChildOfClass("Humanoid").Address);
+		if (!humanoid.Address) continue;
+		float health = humanoid.GetHealth();
+		if (Globals::HealthCheck && health == 0) continue;
 
 		Vector3 humanoidRootPartPosition = humanoidRootPart.GetPosition();
 
@@ -121,6 +121,36 @@ void drawLoop(int width, int height) {
 
 		float fontSize = 13;
 
+		if (Globals::HealthBarEnabled) {
+			float* espBoxColor = Globals::ESPBoxColor;
+
+			float healthBarThickness = Globals::HealthBarThickness;
+
+			float height = legScreenPos.Y - headScreenPos.Y;
+			float width = (50 + healthBarThickness) / distanceFromCamera;
+
+			float x = (headScreenPos.X - (height / 3.2));
+
+			float outlineThickness = 70 / distanceFromCamera;
+
+			float maxHealth = humanoid.GetMaxHealth();
+
+			DrawBox( // Black outline.
+				x - (outlineThickness / 2), headScreenPos.Y - (outlineThickness / 2),
+				width + outlineThickness, height + outlineThickness,
+				0,
+				0, 0, 0, espBoxColor[3],
+				true
+			);
+
+			DrawBox(
+				x, legScreenPos.Y,
+				width, -(height * (health / maxHealth)),
+				0,
+				0, 0.85, 0, espBoxColor[3],
+				true
+			);
+		}
 		if (Globals::ESPBoxEnabled) {
 			float* espBoxColor = Globals::ESPBoxColor;
 

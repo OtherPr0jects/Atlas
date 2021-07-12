@@ -48,7 +48,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 480,
+        500, 510,
         NULL,
         NULL,
         wc.hInstance,
@@ -150,9 +150,11 @@ void Gui::Setup() {
                 ImGui::Checkbox("Names", &Globals::ESPNameEnabled);
                 ImGui::Checkbox("Distances", &Globals::ESPDistanceEnabled);
                 ImGui::Checkbox("Head dots", &Globals::ESPHeadDotEnabled);
+                ImGui::Checkbox("Health bars", &Globals::HealthBarEnabled);
 
                 ImGui::SliderFloat("ESP box thickness", &Globals::ESPBoxThickness, 1, 6);
                 ImGui::SliderFloat("Tracer thickness", &Globals::TracerThickness, 1, 6);
+                ImGui::SliderFloat("Health bar thickness", &Globals::HealthBarThickness, 1, 25);
 
                 colorEdit4WithRainbow("ESP box color", reinterpret_cast<float*>(&Globals::ESPBoxColor));
                 colorEdit4WithRainbow("Tracer color", reinterpret_cast<float*>(&Globals::TracerColor));

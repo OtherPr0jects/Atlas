@@ -19,6 +19,7 @@ struct Globals {
 	static bool ESPNameEnabled;
 	static bool ESPDistanceEnabled;
 	static bool ESPHeadDotEnabled;
+	static bool HealthBarEnabled;
 
 	static int TracerStartLocation;
 
@@ -38,6 +39,7 @@ struct Globals {
 	static float AimbotSmoothness;
 	static float ESPBoxThickness;
 	static float TracerThickness;
+	static float HealthBarThickness;
 
 	static float RainbowSpeed;
 

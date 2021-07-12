@@ -75,4 +75,6 @@ class Humanoid : public Instance {
 		using Instance::Instance;
 
 		float GetHealth();
+
+		float GetMaxHealth();
 };
