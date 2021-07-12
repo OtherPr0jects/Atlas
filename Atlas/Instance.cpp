@@ -2,9 +2,8 @@
 #include "RBXClasses.h"
 #include "Memory.h"
 
-std::string Instance::GetClassType() {
-	std::uintptr_t classDescriptor = Memory::GetPointerAddress(this->Address + 0xC);
-	return Memory::ReadStringOfUnknownLength(Memory::GetPointerAddress(classDescriptor + 0x4));
+Instance Instance::GetParent() {
+	return Memory::GetPointerAddress(this->Address + 0x34);
 }
 
 std::string Instance::GetName() {
@@ -19,6 +18,11 @@ std::string Instance::GetName() {
 	} else {
 		return name;
 	}
+}
+
+std::string Instance::GetClassType() {
+	std::uintptr_t classDescriptor = Memory::GetPointerAddress(this->Address + 0xC);
+	return Memory::ReadStringOfUnknownLength(Memory::GetPointerAddress(classDescriptor + 0x4));
 }
 
 std::vector<Instance> Instance::GetChildren() {

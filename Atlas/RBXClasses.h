@@ -10,6 +10,8 @@ class Instance {
 
 		std::uintptr_t Address;
 
+		Instance GetParent();
+
 		std::string GetName();
 
 		std::string GetClassType(); // GetClassName.

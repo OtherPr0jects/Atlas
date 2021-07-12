@@ -13,12 +13,14 @@ int main() {
     std::uintptr_t processID = Memory::GetProcessID(L"RobloxPlayerBeta.exe");
     if (!processID) {
         std::cout << "Couldn't get Roblox process ID.\n";
+        system("pause");
         return 0;
     }
 
     HANDLE handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processID);
     if (!handle) {
         std::cout << "Couldn't get Roblox handle.\n";
+        system("pause");
         return 0;
     }
     Globals::Handle = handle;
@@ -34,8 +36,9 @@ int main() {
 
     std::cout << "Welcome to Atlas. Scanning...\n";
 
-    DataModel game = Memory::Scan(baseAddress + Addresses::DataModel);
-    Players players = Players(game.GetService("Players").Address);
+    Instance scriptContext = Memory::Scan(baseAddress + Addresses::ScriptContext); // Using ScriptContext to get the DataModel object because sometimes scanning for the DataModel VFTable leads to multiple results.
+    DataModel game = static_cast<DataModel>(scriptContext.GetParent().Address);
+    Players players = static_cast<Players>(game.GetService("Players").Address);
     Player localPlayer = players.GetLocalPlayer();
     Instance character = localPlayer.GetCharacter();
     Instance team = localPlayer.GetTeam();
