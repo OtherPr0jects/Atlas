@@ -3,8 +3,8 @@
 #include "Utility.h"
 
 union HexToFloat {
-    std::uintptr_t hex;
-    float flt;
+    std::uintptr_t Hex;
+    float Float;
 };
 
 std::string Utility::CreateRandomString(int length) {
@@ -58,6 +58,6 @@ void Utility::HSVToRGB(float h, float s, float v, float rgbArray[4]) {
 
 float Utility::HexToFloat(std::uintptr_t hex) {
     union HexToFloat conversion;
-    conversion.hex = hex;
-    return conversion.flt;
+    conversion.Hex = hex;
+    return conversion.Float;
 }
