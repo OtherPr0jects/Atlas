@@ -48,7 +48,7 @@ void Gui::Setup() {
         (LPCWSTR)Utility::CreateRandomString(6).c_str(),
         WS_OVERLAPPEDWINDOW,
         0, 0,
-        500, 510,
+        500, 528,
         NULL,
         NULL,
         wc.hInstance,
@@ -294,6 +294,7 @@ LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             break;
         case WM_DESTROY:
             PostQuitMessage(0);
+            exit(0);
             return 0;
     }
 
