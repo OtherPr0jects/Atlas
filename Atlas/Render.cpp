@@ -221,7 +221,7 @@ void drawLoop(int width, int height) {
 			DrawCircle(
 				realHeadScreenPos.X, realHeadScreenPos.Y,
 				500 / distanceFromCamera,
-				3,
+				0,
 				headDotColor[0], headDotColor[1], headDotColor[2], headDotColor[3],
 				true
 			);

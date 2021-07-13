@@ -16,9 +16,9 @@ public:
 		return buffer;
 	};
 
-	static std::uintptr_t GetPointerAddress(std::uintptr_t address);
-
-	static std::uintptr_t GetDMAAddress(std::uintptr_t ptr, const std::vector<std::uintptr_t>& offsets);
+	static inline std::uintptr_t GetPointerAddress(std::uintptr_t address) { // Had to put the definition here because you can't define inline methods in the cpp file.
+		return Read<std::uintptr_t>(reinterpret_cast<LPCVOID>(address));
+	}
 
 	static std::string ReadStringOfUnknownLength(std::uintptr_t address);
 };

@@ -30,15 +30,19 @@ std::vector<Instance> Instance::GetChildren() {
 
 	std::uintptr_t v4 = Memory::GetPointerAddress(this->Address + 0x2C);
 	int v25 = (Memory::GetPointerAddress(v4 + 4) - Memory::GetPointerAddress(v4)) >> 3;
-	if (!v25) {
+	if ((!v25) || (v25 < 0)) {
 		std::cout << "Couldn't get number of children of " << this->GetName() << ".\n";
 		return children;
 	}
 	children.reserve(v25);
 
 	std::uintptr_t v6 = Memory::GetPointerAddress(v4);
+	if (!v6) return children;
+
 	for (int i = 0; i < v25; i++) {
-		children.emplace_back(Memory::GetPointerAddress(v6));
+		Instance child = static_cast<Instance>(Memory::GetPointerAddress(v6));
+		if (!child.Address) break;
+		children.push_back(child);
 		v6 += 8;
 	}
 
