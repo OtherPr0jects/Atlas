@@ -47,8 +47,6 @@ class Player : public Instance {
 	public:
 		using Instance::Instance;
 
-		std::int64_t GetUserID();
-
 		Instance GetTeam();
 
 		Instance GetCharacter();

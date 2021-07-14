@@ -28,7 +28,6 @@ int main() {
     HWND hwnd = FindWindowA(0, "Roblox");
     Globals::RobloxHWND = hwnd;
 
-    std::int64_t userID = 0;
     std::string teamName;
 
     std::uintptr_t baseAddress = Memory::GetModuleBaseAddress(processID, L"RobloxPlayerBeta.exe");
@@ -49,8 +48,6 @@ int main() {
     Globals::LocalPlayer = localPlayer;
     Globals::VisualEngine = visualEngine;
 
-    userID = localPlayer.GetUserID();
-
     if (team.Address) {
         teamName = team.GetName();
     } else {
@@ -66,7 +63,6 @@ int main() {
     std::cout << "VisualEngine address: " << visualEngine.Address << std::dec << '\n';
     std::cout << "--------------------------------------\n";
 
-    std::cout << "User ID: " << userID << '\n';
     std::cout << "Username: " << localPlayer.GetName() << '\n';
     std::cout << "Team: " << teamName << '\n';
 

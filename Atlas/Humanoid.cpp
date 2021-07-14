@@ -13,5 +13,5 @@ float Humanoid::GetMaxHealth() {
 	std::uintptr_t offset = 0x21C;
 	std::uintptr_t v1 = Memory::GetPointerAddress(this->Address + offset);
 	std::uintptr_t v2 = Memory::GetPointerAddress(Memory::GetPointerAddress(this->Address + offset));
-	return Utility::HexToFloat(v2 ^ v1);
+	return Utility::HexToFloat(v2 - v1);
 }
