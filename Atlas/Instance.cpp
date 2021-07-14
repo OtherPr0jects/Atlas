@@ -2,6 +2,8 @@
 #include "RBXClasses.h"
 #include "Memory.h"
 
+constexpr int MAX_CHILDREN = 110;
+
 Instance Instance::GetParent() {
 	return Memory::GetPointerAddress(this->Address + 0x34);
 }
@@ -32,6 +34,10 @@ std::vector<Instance> Instance::GetChildren() {
 	int v25 = (Memory::GetPointerAddress(v4 + 4) - Memory::GetPointerAddress(v4)) >> 3;
 	if ((!v25) || (v25 < 0)) {
 		std::cout << "Couldn't get number of children of " << this->GetName() << ".\n";
+		return children;
+	}
+	if (v25 > MAX_CHILDREN) {
+		std::cout << "Number of children was greater than MAX_CHILDREN.\n";
 		return children;
 	}
 	children.reserve(v25);

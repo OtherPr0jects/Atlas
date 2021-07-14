@@ -3,7 +3,7 @@
 #include <TlHelp32.h>
 #include "Memory.h"
 
-constexpr int MAX_READ_LENGTH = 152;
+constexpr int MAX_READ_LENGTH = 200;
 
 std::uintptr_t Memory::GetProcessID(const wchar_t* processName) {
 	std::uintptr_t processID = 0;
@@ -98,9 +98,9 @@ std::string Memory::ReadStringOfUnknownLength(std::uintptr_t address) {
 	int charSize = sizeof(character);
 	int offset = 0;
 
-	string.reserve(MAX_READ_LENGTH);
+	string.reserve(52);
 
-	while (offset < MAX_READ_LENGTH) {
+	while (offset < MAX_READ_LENGTH) { // 200 / sizeof(char) == 50. This means 50 charactes can be read until it will stop reading.
 		character = Read<char>(reinterpret_cast<LPCVOID>(address + offset));
 		if (character == 0) break;
 		offset += charSize;
