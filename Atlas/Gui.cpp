@@ -69,7 +69,9 @@ void Gui::Setup() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-
+    
+    io.IniFilename = 0;
+    
     ImGui::StyleColorsDark();
 
     ImGui_ImplWin32_Init(hwnd);
