@@ -8,7 +8,7 @@
 #include "Globals.h"
 
 int main() {
-    SetConsoleTitle((LPCWSTR)Utility::CreateRandomString(6).c_str());
+    SetConsoleTitle(reinterpret_cast<LPCWSTR>(Utility::CreateRandomString(6).c_str()));
 
     std::uintptr_t processID = Memory::GetProcessID(L"RobloxPlayerBeta.exe");
     if (!processID) {
