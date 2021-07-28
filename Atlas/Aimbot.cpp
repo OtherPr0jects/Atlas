@@ -43,7 +43,7 @@ Vector2 getClosestCharacterScreenPosToCursor() {
 
         Humanoid humanoid = static_cast<Humanoid>(character.FindFirstChildOfClass("Humanoid").Address);
         if (!humanoid.Address) continue;
-        if (humanoid.GetHealth() == 0) continue;
+        if (Globals::HealthCheck && humanoid.GetHealth() == 0) continue;
 
         BasePart targetInstance(0);
         
